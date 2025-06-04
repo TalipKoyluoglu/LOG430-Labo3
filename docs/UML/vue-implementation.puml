@@ -1,0 +1,20 @@
+@startuml
+package "src" {
+  package "logic" {
+    class "caisse.py" as Logique
+  }
+
+  package "db" {
+    class "models.py" as Modeles
+    class "session.py" as Session
+  }
+
+  class "main.py" as Main
+}
+
+Main --> Logique : utilise
+Logique --> Session : appelle
+Logique --> Modeles : manipule ORM
+Session --> Modeles : instancie Base, engine
+
+@enduml

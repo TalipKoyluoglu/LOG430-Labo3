@@ -1,0 +1,22 @@
+@startuml
+hide footbox
+actor Employe
+participant "main.py" as Main
+participant "caisse.py" as Caisse
+participant "Session SQLAlchemy" as Session
+participant "Produit (ORM)" as Produit
+
+Employe -> Main : Choisit "Rechercher un produit"
+Main -> Caisse : appeler rechercher_produit(session)
+Caisse -> Employe : Demander nom à rechercher
+Employe -> Caisse : Entrer nom partiel
+Caisse -> Session : session.query(...).filter(ilike)
+Session -> Produit : Requête de recherche
+Produit --> Session : Résultats ORM
+Session --> Caisse : Liste[Produit]
+alt Produits trouvés
+    Caisse -> Employe : Affiche tableau des produits trouvés
+else Aucun résultat
+    Caisse -> Employe : Affiche "[INFO] Aucun produit trouvé."
+end
+@enduml

@@ -1,0 +1,30 @@
+@startuml
+hide empty members
+skinparam classAttributeIconSize 0
+
+class Produit {
+  +id : Integer
+  +nom : String
+  +categorie : String
+  +prix : Float
+  +quantiteStock : Integer
+}
+
+class Vente {
+  +id : Integer
+  +date : DateTime
+  +total : Float
+  +lignes : List<LigneVente>
+}
+
+class LigneVente {
+  +id : Integer
+  +vente_id : Integer
+  +produit_id : Integer
+  +quantite : Integer
+  +sousTotal : Float
+}
+
+Produit "1" <-- "0..*" LigneVente : contient >
+Vente "1" <-- "0..*" LigneVente : regroupe >
+@enduml

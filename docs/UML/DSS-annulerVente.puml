@@ -1,0 +1,28 @@
+@startuml
+hide footbox
+actor Employe
+participant "main.py" as Main
+participant "caisse.py" as Caisse
+participant "Session SQLAlchemy" as Session
+participant "Vente (ORM)" as Vente
+participant "LigneVente (ORM)" as Ligne
+participant "Produit (ORM)" as Produit
+
+Employe -> Main : Choisit "Annuler une vente"
+Main -> Caisse : appeler annuler_vente(session)
+Caisse -> Employe : Demande ID de vente
+Employe -> Caisse : Fournit ID
+Caisse -> Session : session.query(Vente).get(ID)
+Session --> Caisse : Vente (ou None)
+alt Vente inexistante
+    Caisse -> Employe : Affiche "[ERREUR] Vente non trouvée"
+else Vente existante
+    Caisse -> Vente : Parcourt les lignes de vente
+    loop Pour chaque LigneVente
+        Ligne -> Produit : produit.quantiteStock += quantité vendue
+    end
+    Caisse -> Session : session.delete(vente)
+    Caisse -> Session : session.commit()
+    Caisse -> Employe : Affiche succès
+end
+@enduml

@@ -1,0 +1,20 @@
+@startuml
+left to right direction
+skinparam actorStyle awesome
+
+actor Employe
+
+rectangle "Système de Caisse" {
+  usecase "Ajouter un produit" as UC1
+  usecase "Rechercher un produit" as UC2
+  usecase "Afficher le stock" as UC3
+  usecase "Enregistrer une vente" as UC4
+  usecase "Annuler une vente" as UC5
+}
+
+Employe --> UC1
+Employe --> UC2
+Employe --> UC3
+Employe --> UC4
+Employe --> UC5
+@enduml

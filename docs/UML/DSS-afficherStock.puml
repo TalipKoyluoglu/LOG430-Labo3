@@ -1,0 +1,20 @@
+@startuml
+hide footbox
+actor Employe
+participant "main.py" as Main
+participant "caisse.py" as Caisse
+participant "Session SQLAlchemy" as Session
+participant "Produit (ORM)" as Produit
+
+Employe -> Main : Choisit "Afficher le stock"
+Main -> Caisse : appeler afficher_stock(session)
+Caisse -> Session : session.query(Produit).all()
+Session -> Produit : Récupère tous les produits
+Produit --> Session : Liste complète
+Session --> Caisse : Liste[Produit]
+alt Produits en stock
+    Caisse -> Employe : Affiche tableau du stock
+else Aucun produit
+    Caisse -> Employe : Affiche "[INFO] Aucun produit en stock."
+end
+@enduml

@@ -1,0 +1,17 @@
+@startuml
+node "Machine Virtuelle" {
+    node "Conteneur caisse-app" {
+        component "Application Console (main.py)" 
+        component "Logique métier (caisse.py)"
+        component "Accès ORM (session.py)"
+    }
+
+    node "Conteneur postgres-caisse" {
+        database "PostgreSQL\n(DB caisse)"
+    }
+
+    "Application Console (main.py)" --> "Logique métier (caisse.py)"
+    "Logique métier (caisse.py)" --> "Accès ORM (session.py)"
+    "Accès ORM (session.py)" --> "PostgreSQL\n(DB caisse)" : connexion SQLAlchemy
+}
+@enduml

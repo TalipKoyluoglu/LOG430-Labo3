@@ -1,0 +1,39 @@
+services:
+  postgres:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: caisse
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  caisse-app:
+    build: .
+    container_name: log430-caisse
+    volumes:
+      - ./data:/app/data
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/caisse
+    command: python src/main.py
+    stdin_open: true
+    tty: true
+    depends_on:
+      - postgres
+
+  tests:
+    build: .
+    container_name: log430-tests
+    volumes:
+      - .:/app
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/caisse
+    command: pytest tests/
+    depends_on:
+      - postgres
+
+volumes:
+  pgdata:

@@ -1,0 +1,22 @@
+@startuml
+hide footbox
+actor Employe
+participant "main.py" as Main
+participant "caisse.py" as Caisse
+participant "Session SQLAlchemy" as Session
+participant "Produit (ORM)" as Produit
+
+Employe -> Main : Choisit "Ajouter un produit"
+Main -> Caisse : appeler ajouter_produit(session)
+Caisse -> Employe : Demander nom, catégorie, prix, quantité
+Employe -> Caisse : Saisir les infos
+Caisse -> Session : Requête session.query(Produit).filter_by(nom)
+Session -> Produit : Recherche produit
+alt Produit existe
+    Caisse -> Produit : produit.quantiteStock += quantité
+else Produit inexistant
+    Caisse -> Session : session.add(produit)
+end
+Caisse -> Session : session.commit()
+Caisse -> Employe : Affiche message de succès
+@enduml
