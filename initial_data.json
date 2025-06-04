@@ -1,0 +1,74 @@
+[
+  {
+    "model": "magasin.magasin",
+    "pk": 1,
+    "fields": {
+      "nom": "Magasin Centre-Ville",
+      "adresse": "123 Rue Principale"
+    }
+  },
+  {
+    "model": "magasin.magasin",
+    "pk": 2,
+    "fields": {
+      "nom": "Magasin Nord",
+      "adresse": "456 Boulevard Nord"
+    }
+  },
+  {
+    "model": "magasin.produit",
+    "pk": 1,
+    "fields": {
+      "nom": "Clavier mécanique",
+      "categorie": "Informatique",
+      "prix": "89.99",
+      "quantite_stock": 50,
+      "description": "Clavier rétroéclairé RGB"
+    }
+  },
+  {
+    "model": "magasin.produit",
+    "pk": 2,
+    "fields": {
+      "nom": "Souris optique",
+      "categorie": "Informatique",
+      "prix": "25.50",
+      "quantite_stock": 80,
+      "description": "Souris ergonomique sans fil"
+    }
+  },
+  {
+    "model": "magasin.stockcentral",
+    "pk": 1,
+    "fields": {
+      "produit": 1,
+      "quantite": 200
+    }
+  },
+  {
+    "model": "magasin.stockcentral",
+    "pk": 2,
+    "fields": {
+      "produit": 2,
+      "quantite": 300
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 1,
+    "fields": {
+      "produit": 1,
+      "magasin": 1,
+      "quantite": 20
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 2,
+    "fields": {
+      "produit": 2,
+      "magasin": 2,
+      "quantite": 35
+    }
+  }
+]

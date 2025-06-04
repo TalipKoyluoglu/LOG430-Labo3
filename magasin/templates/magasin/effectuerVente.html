@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}UC1 - Rapport Consolidé des Ventes{% endblock %}
+
+{% block content %}
+  <h1>Rapport Consolidé des Ventes</h1>
+
+ {% if messages %}
+  <div style="margin-bottom: 15px;">
+    {% for message in messages %}
+      {% if message.tags == 'error' %}
+        <div style="color: red; font-weight: bold;">
+      {% else %}
+        <div style="color: green; font-weight: bold;">
+      {% endif %}
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+
+  <form method="POST" action="{% url 'uc1_enregistrer_vente' %}" style="margin-bottom: 30px;">
+    {% csrf_token %}
+    <label for="magasin">Magasin :</label>
+    <select name="magasin_id" required>
+      {% for magasin in magasins %}
+        <option value="{{ magasin.id }}">{{ magasin.nom }}</option>
+      {% endfor %}
+    </select>
+
+    <label for="produit">Produit :</label>
+    <select name="produit_id" required>
+      {% for produit in produits %}
+        <option value="{{ produit.id }}">{{ produit.nom }}</option>
+      {% endfor %}
+    </select>
+
+    <label for="quantite">Quantité vendue :</label>
+    <input type="number" name="quantite" min="1" required>
+
+    <button type="submit">Enregistrer la vente</button>
+  </form>
+
+  {% for rapport in rapports %}
+    <h2>Magasin : {{ rapport.magasin }}</h2>
+    <p><strong>Total des ventes :</strong> {{ rapport.total }} $</p>
+
+    <h3>Produits vendus :</h3>
+    {% if rapport.produits_vendus %}
+      <ul>
+        {% for produit, quantite in rapport.produits_vendus.items %}
+          <li>{{ produit }} : {{ quantite }}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p><em>Aucun produit vendu</em></p>
+    {% endif %}
+
+    <h3>Stock local :</h3>
+    {% if rapport.stock_local %}
+      <ul>
+        {% for produit, quantite in rapport.stock_local.items %}
+          <li>{{ produit }} : {{ quantite }}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p><em>Aucun stock local</em></p>
+    {% endif %}
+    <hr>
+  {% endfor %}
+{% endblock %}
