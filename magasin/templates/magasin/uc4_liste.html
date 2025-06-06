@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>UC4 — Liste des produits</h1>
+
+<table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+  <thead>
+    <tr style="background-color: #f2f2f2;">
+      <th style="border: 1px solid #ccc; padding: 10px;">Nom</th>
+      <th style="border: 1px solid #ccc; padding: 10px;">Prix ($)</th>
+      <th style="border: 1px solid #ccc; padding: 10px;">Description</th>
+      <th style="border: 1px solid #ccc; padding: 10px;">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for produit in produits %}
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 10px;">{{ produit.nom }}</td>
+      <td style="border: 1px solid #ccc; padding: 10px;">{{ produit.prix|floatformat:2 }}</td>
+      <td style="border: 1px solid #ccc; padding: 10px;">{{ produit.description }}</td>
+      <td style="border: 1px solid #ccc; padding: 10px;">
+        <a href="{% url 'uc4_modifier_produit' produit.id %}"> Modifier</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

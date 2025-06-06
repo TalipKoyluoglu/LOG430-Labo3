@@ -16,6 +16,31 @@
     }
   },
   {
+    "model": "magasin.magasin",
+    "pk": 3,
+    "fields": {
+      "nom": "Magasin Est",
+      "adresse": "789 Avenue Est"
+    }
+  },
+  {
+    "model": "magasin.magasin",
+    "pk": 4,
+    "fields": {
+      "nom": "Magasin Sud",
+      "adresse": "321 Chemin Sud"
+    }
+  },
+  {
+    "model": "magasin.magasin",
+    "pk": 5,
+    "fields": {
+      "nom": "Magasin Ouest",
+      "adresse": "654 Route Ouest"
+    }
+  },
+
+  {
     "model": "magasin.produit",
     "pk": 1,
     "fields": {
@@ -38,6 +63,18 @@
     }
   },
   {
+    "model": "magasin.produit",
+    "pk": 3,
+    "fields": {
+      "nom": "Tapis de souris XL",
+      "categorie": "Accessoire",
+      "prix": "19.99",
+      "quantite_stock": 120,
+      "description": "Surface antidérapante et étendue"
+    }
+  },
+
+  {
     "model": "magasin.stockcentral",
     "pk": 1,
     "fields": {
@@ -54,6 +91,15 @@
     }
   },
   {
+    "model": "magasin.stockcentral",
+    "pk": 3,
+    "fields": {
+      "produit": 3,
+      "quantite": 150
+    }
+  },
+
+  {
     "model": "magasin.stocklocal",
     "pk": 1,
     "fields": {
@@ -69,6 +115,33 @@
       "produit": 2,
       "magasin": 2,
       "quantite": 35
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 3,
+    "fields": {
+      "produit": 3,
+      "magasin": 3,
+      "quantite": 15
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 4,
+    "fields": {
+      "produit": 1,
+      "magasin": 4,
+      "quantite": 10
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 5,
+    "fields": {
+      "produit": 2,
+      "magasin": 5,
+      "quantite": 25
     }
   }
 ]
