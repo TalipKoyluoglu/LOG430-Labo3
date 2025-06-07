@@ -56,7 +56,7 @@ jobs:
         run: python manage.py migrate
 
       - name: Run unit + integration tests
-        run: pytest run: pytest magasin/tests/
+        run: pytest magasin/tests/
 
       - name: Check code formatting with Black
         run: black --check . --exclude '/migrations/'
