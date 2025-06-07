@@ -1,0 +1,32 @@
+@startuml DSS-valider-ou-refuser-demande
+actor Admin
+boundary "Page validation" as Page
+control "UC6_ValidationControleur" as UC6
+entity "DemandeReapprovisionnement" as DR
+entity "StockCentral"
+entity "StockLocal"
+
+Admin -> Page : Clique sur "Valider" ou "Refuser"
+Page -> UC6 : traiter_demande(demande_id, action)
+
+UC6 -> DR : .get(id)
+DR --> UC6 : produit, magasin, quantite
+
+alt Action == "Valider" et stock suffisant
+  UC6 -> StockCentral : .get(produit)
+  UC6 -> StockLocal : get_or_create(produit, magasin, defaults={quantite:0})
+  StockCentral -> StockCentral : décrémenter quantité
+  StockLocal -> StockLocal : incrémenter quantité
+  StockCentral -> StockCentral : .save()
+  StockLocal -> StockLocal : .save()
+  DR -> DR : statut = "approuvée"
+  DR -> DR : .save()
+  UC6 --> Page : True
+  Page --> Admin :  Demande approuvée
+else Action == "Refuser"
+  DR -> DR : statut = "refusée"
+  DR -> DR : .save()
+  UC6 --> Page : False
+  Page --> Admin :  Demande refusée
+end
+@enduml

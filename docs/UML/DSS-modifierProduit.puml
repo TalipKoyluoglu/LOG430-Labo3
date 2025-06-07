@@ -1,0 +1,20 @@
+@startuml DSS-modifierProduit
+actor Admin
+boundary "Page modifier produit" as Form
+control "UC4_ProduitControleur" as UC4
+entity "Produit"
+
+Admin -> Form : Remplit les champs modifiés
+Form -> UC4 : modifier_produit(p_id, nom, prix, description)
+UC4 -> Produit : get(produit_id)
+Produit -> Produit : modifier champs
+Produit -> Produit : save()
+
+alt Succès (modification effectuée)
+  UC4 --> Form : True
+  Form --> Admin : Confirmation
+else Échec (produit non trouvé / erreur)
+  UC4 --> Form : False
+  Form --> Admin : Erreur affichée
+end
+@enduml

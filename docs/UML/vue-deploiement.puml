@@ -1,17 +1,32 @@
-@startuml
-node "Machine Virtuelle" {
-    node "Conteneur caisse-app" {
-        component "Application Console (main.py)" 
-        component "Logique métier (caisse.py)"
-        component "Accès ORM (session.py)"
-    }
+@startuml VueDeploiement
+skinparam componentStyle rectangle
+skinparam defaultTextAlignment center
+left to right direction
 
-    node "Conteneur postgres-caisse" {
-        database "PostgreSQL\n(DB caisse)"
-    }
+node "VM Étudiante" {
+  node "Container : Django App" {
+    component "magasin (backend Django)"
+    database "PostgreSQL"
+  }
 
-    "Application Console (main.py)" --> "Logique métier (caisse.py)"
-    "Logique métier (caisse.py)" --> "Accès ORM (session.py)"
-    "Accès ORM (session.py)" --> "PostgreSQL\n(DB caisse)" : connexion SQLAlchemy
+  node "Container : Web Server (nginx, optional)" {
+    component "Serveur HTTP\n(port 8000 ou 80)"
+  }
 }
+
+cloud "DockerHub" {
+  artifact "python:3.12"
+  artifact "postgres:15"
+}
+
+cloud "Maison mère (navigateur)" {
+  component "Interface Web"
+}
+
+"Maison mère (navigateur)" --> "Serveur HTTP\n(port 8000 ou 80)" : Requêtes HTTP
+"Serveur HTTP\n(port 8000 ou 80)" --> "magasin (backend Django)" : Routage interne
+"magasin (backend Django)" --> "PostgreSQL" : Requêtes ORM SQL
+
+"python:3.12" --> "magasin (backend Django)"
+"postgres:15" --> "PostgreSQL"
 @enduml

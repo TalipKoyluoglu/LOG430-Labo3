@@ -1,5 +1,6 @@
 from magasin.models import Vente, LigneVente, Magasin
 
+
 def generer_rapport_consolide():
     rapports = []
     magasins = Magasin.objects.all()
@@ -15,10 +16,12 @@ def generer_rapport_consolide():
                 quantite = ligne.quantite
                 produits_vendus[produit] = produits_vendus.get(produit, 0) + quantite
 
-        rapports.append({
-            'magasin': magasin.nom,
-            'total': total_magasin,
-            'produits_vendus': produits_vendus
-        })
+        rapports.append(
+            {
+                "magasin": magasin.nom,
+                "total": total_magasin,
+                "produits_vendus": produits_vendus,
+            }
+        )
 
     return rapports

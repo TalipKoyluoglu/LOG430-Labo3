@@ -1,0 +1,19 @@
+@startuml DSS-creer-demande-approvisionnement
+actor Employé
+boundary "Formulaire HTML" as Form
+control "UC2_StockControleur" as UC2
+entity "DemandeReapprovisionnement" as DR
+
+Employé -> Form : Saisir produit, magasin, quantité
+Form -> UC2 : creer_demande_reapprovisionnement(p_id, m_id, q)
+UC2 -> DR : .create(produit_id, magasin_id, quantite)
+DR --> UC2 : Instance persistée ou erreur
+
+alt Création réussie
+  UC2 --> Form : True
+  Form --> Employé : Affichage succès
+else Échec création
+  UC2 --> Form : False
+  Form --> Employé : Affichage erreur
+end
+@enduml

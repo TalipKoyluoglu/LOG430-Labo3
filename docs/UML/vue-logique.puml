@@ -1,30 +1,52 @@
-@startuml
-hide empty members
+
+@startuml VueLogique
 skinparam classAttributeIconSize 0
 
-class Produit {
-  +id : Integer
-  +nom : String
-  +categorie : String
-  +prix : Float
-  +quantiteStock : Integer
-}
+package "Modèles" {
+    class Magasin {
+        +nom: str
+        +adresse: str
+    }
 
-class Vente {
-  +id : Integer
-  +date : DateTime
-  +total : Float
-  +lignes : List<LigneVente>
-}
+    class Produit {
+        +nom: str
+        +categorie: str
+        +prix: Decimal
+        +description: str
+    }
 
-class LigneVente {
-  +id : Integer
-  +vente_id : Integer
-  +produit_id : Integer
-  +quantite : Integer
-  +sousTotal : Float
-}
+    class StockLocal {
+        +quantite: int
+    }
 
-Produit "1" <-- "0..*" LigneVente : contient >
-Vente "1" <-- "0..*" LigneVente : regroupe >
+    class StockCentral {
+        +quantite: int
+    }
+
+    class Vente {
+        +date_vente: datetime
+        +total: Decimal
+    }
+
+    class LigneVente {
+        +quantite: int
+        +prix_unitaire: Decimal
+    }
+
+    class DemandeReapprovisionnement {
+        +quantite: int
+        +statut: str
+    }
+
+    Magasin "1" -- "0..*" StockLocal
+    Magasin "1" -- "0..*" Vente
+    Magasin "1" -- "0..*" DemandeReapprovisionnement
+
+    Produit "1" -- "0..*" StockLocal
+    Produit "1" -- "0..*" StockCentral
+    Produit "1" -- "0..*" LigneVente
+    Produit "1" -- "0..*" DemandeReapprovisionnement
+
+    Vente "1" -- "1..*" LigneVente
+}
 @enduml

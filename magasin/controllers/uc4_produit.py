@@ -1,5 +1,6 @@
 from magasin.models.produit import Produit
 
+
 class UC4_ProduitControleur:
 
     def get_produit(self, produit_id):
@@ -8,7 +9,9 @@ class UC4_ProduitControleur:
         except Produit.DoesNotExist:
             return None
 
-    def modifier_produit(self, produit_id, nouveau_nom, nouveau_prix, nouvelle_description):
+    def modifier_produit(
+        self, produit_id, nouveau_nom, nouveau_prix, nouvelle_description
+    ):
         try:
             produit = Produit.objects.get(id=produit_id)
             produit.nom = nouveau_nom

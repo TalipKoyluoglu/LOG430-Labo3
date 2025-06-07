@@ -10,22 +10,33 @@ def rapport_ventes(request):
 
     for magasin in Magasin.objects.all():
         ventes = Vente.objects.filter(magasin=magasin)
-        total = sum(ligne.quantite * ligne.prix_unitaire for vente in ventes for ligne in vente.lignes.all())
+        total = sum(
+            ligne.quantite * ligne.prix_unitaire
+            for vente in ventes
+            for ligne in vente.lignes.all()
+        )
 
         produits_vendus = {}
         for vente in ventes:
             for ligne in vente.lignes.all():
                 nom_produit = ligne.produit.nom
-                produits_vendus[nom_produit] = produits_vendus.get(nom_produit, 0) + ligne.quantite
+                produits_vendus[nom_produit] = (
+                    produits_vendus.get(nom_produit, 0) + ligne.quantite
+                )
 
-        stock_local = {s.produit.nom: s.quantite for s in StockLocal.objects.filter(magasin=magasin)}
+        stock_local = {
+            s.produit.nom: s.quantite
+            for s in StockLocal.objects.filter(magasin=magasin)
+        }
 
-        rapports.append({
-            "magasin": magasin.nom,
-            "total": total,
-            "produits_vendus": produits_vendus,
-            "stock_local": stock_local
-        })
+        rapports.append(
+            {
+                "magasin": magasin.nom,
+                "total": total,
+                "produits_vendus": produits_vendus,
+                "stock_local": stock_local,
+            }
+        )
 
     return render(request, "magasin/uc1_rapport.html", {"rapports": rapports})
 
@@ -33,16 +44,19 @@ def rapport_ventes(request):
 def afficher_formulaire_vente(request):
     magasins = Magasin.objects.all()
     produits = Produit.objects.all()
-    return render(request, "magasin/effectuerVente.html", {
-        "magasins": magasins,
-        "produits": produits
-    })
+    return render(
+        request,
+        "magasin/effectuerVente.html",
+        {"magasins": magasins, "produits": produits},
+    )
 
 
 @require_http_methods(["POST", "GET"])
 def enregistrer_vente(request):
     if request.method == "GET":
-        messages.error(request, "Accès direct interdit. Veuillez utiliser le formulaire.")
+        messages.error(
+            request, "Accès direct interdit. Veuillez utiliser le formulaire."
+        )
         return redirect("uc1_effectuer_vente")
 
     magasin_id = request.POST.get("magasin_id")
@@ -55,7 +69,9 @@ def enregistrer_vente(request):
     stock_local = StockLocal.objects.filter(magasin=magasin, produit=produit).first()
 
     if not stock_local:
-        messages.error(request, "❌ Ce produit n'existe pas dans le stock local de ce magasin.")
+        messages.error(
+            request, "❌ Ce produit n'existe pas dans le stock local de ce magasin."
+        )
         return redirect("ajouter_vente")
 
     if stock_local.quantite < quantite:
@@ -65,10 +81,7 @@ def enregistrer_vente(request):
     vente = Vente.objects.create(magasin=magasin, total=0)
 
     LigneVente.objects.create(
-        vente=vente,
-        produit=produit,
-        quantite=quantite,
-        prix_unitaire=produit.prix
+        vente=vente, produit=produit, quantite=quantite, prix_unitaire=produit.prix
     )
 
     vente.total = quantite * produit.prix

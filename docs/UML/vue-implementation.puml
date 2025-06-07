@@ -1,20 +1,25 @@
-@startuml
-package "src" {
-  package "logic" {
-    class "caisse.py" as Logique
-  }
+@startuml VueImplementation
+skinparam componentStyle rectangle
+left to right direction
 
-  package "db" {
-    class "models.py" as Modeles
-    class "session.py" as Session
-  }
+package "magasin" {
+    [models] --> [controllers]
+    [controllers] --> [views]
+    [views] --> [templates]
 
-  class "main.py" as Main
+    component "models/\nmagasin.py\nproduit.py\nstock.py\nvente.py\nligneVente.py" as Models
+    component "controllers/\nuc1, uc2, uc3, uc4, uc6" as Controllers
+    component "views/\nuc1.py → uc6.py" as Views
+    component "templates/\nmagasin/*.html" as Templates
+    component "urls.py" as URLs
+    component "admin.py" as Admin
+    component "apps.py" as AppConfig
+
+    Models --> Controllers
+    Controllers --> Views
+    Views --> Templates
+    URLs --> Views
+    Admin --> Models
+    AppConfig --> Models
 }
-
-Main --> Logique : utilise
-Logique --> Session : appelle
-Logique --> Modeles : manipule ORM
-Session --> Modeles : instancie Base, engine
-
 @enduml

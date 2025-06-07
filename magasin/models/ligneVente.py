@@ -2,6 +2,7 @@ from django.db import models
 from .vente import Vente
 from .produit import Produit
 
+
 class LigneVente(models.Model):
     vente = models.ForeignKey(Vente, on_delete=models.CASCADE, related_name="lignes")
     produit = models.ForeignKey(Produit, on_delete=models.CASCADE)

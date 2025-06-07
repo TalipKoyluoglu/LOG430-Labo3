@@ -3,6 +3,7 @@ version: '3.9'
 services:
   web:
     build: .
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app
     ports:
@@ -10,11 +11,12 @@ services:
     depends_on:
       - db
     environment:
-      - POSTGRES_DB=lab2db
-      - POSTGRES_USER=labuser
-      - POSTGRES_PASSWORD=labpass
-      - DB_HOST=db
-      - DB_PORT=5432
+      POSTGRES_DB: lab2db
+      POSTGRES_USER: labuser
+      POSTGRES_PASSWORD: labpass
+      DB_HOST: db
+      DB_PORT: 5432
+    restart: always
 
   db:
     image: postgres:15
@@ -25,6 +27,8 @@ services:
       POSTGRES_PASSWORD: labpass
     volumes:
       - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
 
 volumes:
   pgdata:

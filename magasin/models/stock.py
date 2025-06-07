@@ -1,6 +1,7 @@
-from django.db import models # type: ignore
+from django.db import models  # type: ignore
 from .produit import Produit
 from .magasin import Magasin
+
 
 class StockCentral(models.Model):
     produit = models.ForeignKey(Produit, on_delete=models.CASCADE)
@@ -9,6 +10,7 @@ class StockCentral(models.Model):
     def __str__(self):
         return f"{self.produit.nom} - Central: {self.quantite}"
 
+
 class StockLocal(models.Model):
     produit = models.ForeignKey(Produit, on_delete=models.CASCADE)
     magasin = models.ForeignKey(Magasin, on_delete=models.CASCADE)
@@ -16,7 +18,8 @@ class StockLocal(models.Model):
 
     def __str__(self):
         return f"{self.produit.nom} - {self.magasin.nom}: {self.quantite}"
-    
+
+
 class DemandeReapprovisionnement(models.Model):
     produit = models.ForeignKey(Produit, on_delete=models.CASCADE)
     magasin = models.ForeignKey(Magasin, on_delete=models.CASCADE)

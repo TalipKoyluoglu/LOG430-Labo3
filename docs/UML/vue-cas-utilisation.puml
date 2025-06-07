@@ -1,20 +1,23 @@
-@startuml
+@startuml VueCasUtilisation
 left to right direction
-skinparam actorStyle awesome
+skinparam packageStyle rectangle
 
-actor Employe
+actor "Employé magasin" as Employe
+actor "Maison mère" as Admin
 
-rectangle "Système de Caisse" {
-  usecase "Ajouter un produit" as UC1
-  usecase "Rechercher un produit" as UC2
-  usecase "Afficher le stock" as UC3
-  usecase "Enregistrer une vente" as UC4
-  usecase "Annuler une vente" as UC5
+package "Système de gestion de stock" {
+    usecase "UC1 - Rapport des ventes" as UC1
+    usecase "UC2 - Consultation stock central\n+ Demande réapprovisionnement" as UC2
+    usecase "UC3 - Tableau de bord performances" as UC3
+    usecase "UC4 - Gérer les produits" as UC4
+    usecase "UC6 - Valider ou rejeter\nréapprovisionnement" as UC6
 }
 
-Employe --> UC1
+Admin --> UC1
+Admin --> UC3
+Admin --> UC4
+Admin --> UC6
+
 Employe --> UC2
-Employe --> UC3
-Employe --> UC4
-Employe --> UC5
+
 @enduml

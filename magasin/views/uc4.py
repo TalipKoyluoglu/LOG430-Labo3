@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect, get_object_or_404 # type: ignore
-from django.contrib import messages # type: ignore
+from django.shortcuts import render, redirect, get_object_or_404  # type: ignore
+from django.contrib import messages  # type: ignore
 from magasin.controllers.uc4_produit import UC4_ProduitControleur
 from magasin.models.produit import Produit
 
 controleur = UC4_ProduitControleur()
+
 
 def uc4_modifier_produit(request, produit_id):
     produit = controleur.get_produit(produit_id)
@@ -25,6 +26,7 @@ def uc4_modifier_produit(request, produit_id):
             messages.error(request, "❌ Échec lors de la modification du produit.")
 
     return render(request, "magasin/uc4_modifProduit.html", {"produit": produit})
+
 
 def uc4_lister_produits(request):
     produits = Produit.objects.all()

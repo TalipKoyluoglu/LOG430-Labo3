@@ -14,7 +14,11 @@ urlpatterns = [
     path("uc1/ajouter_vente/", afficher_formulaire_vente, name="ajouter_vente"),
     path("uc1/enregistrer/", enregistrer_vente, name="uc1_enregistrer_vente"),
     path("uc3/dashboard/", uc3_dashboard, name="uc3_dashboard"),
-    path("uc4/modifier/<int:produit_id>/", uc4_modifier_produit, name="uc4_modifier_produit"),
+    path(
+        "uc4/modifier/<int:produit_id>/",
+        uc4_modifier_produit,
+        name="uc4_modifier_produit",
+    ),
     path("uc4/produits/", uc4_lister_produits, name="uc4_lister_produits"),
     path("uc6/demandes/", uc6_demandes, name="uc6_demandes"),
     path("uc6/valider/<int:demande_id>/", uc6_valider, name="uc6_valider"),
