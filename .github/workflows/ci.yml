@@ -2,9 +2,9 @@ name: CI/CD Pipeline - LOG430 Lab2
 
 on:
   push:
-    branches: [ labo2-main ]
+    branches: [ main ]
   pull_request:
-    branches: [ labo2-main ]
+    branches: [ main ]
 
 jobs:
   build-test:
