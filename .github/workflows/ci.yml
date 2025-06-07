@@ -25,6 +25,13 @@ jobs:
           --health-timeout=5s
           --health-retries=5
 
+    env:
+      POSTGRES_DB: lab2db
+      POSTGRES_USER: labuser
+      POSTGRES_PASSWORD: labpass
+      DB_HOST: localhost         
+      DB_PORT: 5432
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -46,8 +53,7 @@ jobs:
           until pg_isready -h localhost -p 5432 -U labuser; do sleep 1; done
 
       - name: Run migrations
-        run: |
-          python manage.py migrate
+        run: python manage.py migrate
 
       - name: Run unit + integration tests
         run: pytest tests/
