@@ -1,6 +1,7 @@
 import pytest
 from django.test import Client  # type: ignore
 
+
 @pytest.mark.django_db
 class TestEndToEnd:
 

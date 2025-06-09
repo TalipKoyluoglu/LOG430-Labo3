@@ -2,10 +2,15 @@ class UC6_ValidationControleur:
 
     def get_demandes_en_attente(self):
         from magasin.models.stock import DemandeReapprovisionnement
+
         return DemandeReapprovisionnement.objects.filter(statut="en_attente")
 
     def valider_demande(self, demande_id):
-        from magasin.models.stock import DemandeReapprovisionnement, StockCentral, StockLocal
+        from magasin.models.stock import (
+            DemandeReapprovisionnement,
+            StockCentral,
+            StockLocal,
+        )
 
         try:
             demande = DemandeReapprovisionnement.objects.get(id=demande_id)

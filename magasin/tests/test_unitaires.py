@@ -2,6 +2,7 @@ import pytest
 from magasin.controllers.uc2_stock import UC2_StockControleur
 from magasin.controllers.uc6_validation import UC6_ValidationControleur
 
+
 @pytest.mark.django_db
 class TestUnitUC2:
 
