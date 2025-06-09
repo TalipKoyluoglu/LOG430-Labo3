@@ -3,7 +3,7 @@ FROM python:3.12-slim
 
 # Étape 2 : Définir le répertoire de travail
 WORKDIR /app
-
+ENV PYTHONPATH=/app
 # Étape 3 : Copier les fichiers nécessaires
 COPY requirements.txt .
 

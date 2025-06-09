@@ -1,15 +1,15 @@
 import pytest
 from magasin.controllers.uc2_stock import UC2_StockControleur
 from magasin.controllers.uc6_validation import UC6_ValidationControleur
-from magasin.models.magasin import Magasin
-from magasin.models.produit import Produit
-from magasin.models.stock import StockCentral, StockLocal, DemandeReapprovisionnement
-
 
 @pytest.mark.django_db
 class TestUnitUC2:
 
     def setup_method(self):
+        from magasin.models.magasin import Magasin
+        from magasin.models.produit import Produit
+        from magasin.models.stock import StockCentral
+
         self.controleur = UC2_StockControleur()
         self.magasin = Magasin.objects.create(nom="Unit Magasin", adresse="Rue A")
         self.produit = Produit.objects.create(
@@ -18,6 +18,8 @@ class TestUnitUC2:
         StockCentral.objects.create(produit=self.produit, quantite=100)
 
     def test_creer_demande_reapprovisionnement(self):
+        from magasin.models.stock import DemandeReapprovisionnement
+
         success = self.controleur.creer_demande_reapprovisionnement(
             produit_id=self.produit.id, magasin_id=self.magasin.id, quantite=10
         )
@@ -31,6 +33,10 @@ class TestUnitUC2:
 class TestUnitUC6:
 
     def setup_method(self):
+        from magasin.models.magasin import Magasin
+        from magasin.models.produit import Produit
+        from magasin.models.stock import StockCentral, DemandeReapprovisionnement
+
         self.controleur = UC6_ValidationControleur()
         self.magasin = Magasin.objects.create(nom="Test", adresse="XYZ")
         self.produit = Produit.objects.create(

@@ -1,14 +1,14 @@
 import pytest
-from django.test import Client
-from magasin.models.magasin import Magasin
-from magasin.models.produit import Produit
-from magasin.models.stock import StockCentral, DemandeReapprovisionnement
-
+from django.test import Client  # type: ignore
 
 @pytest.mark.django_db
 class TestEndToEnd:
 
     def setup_method(self):
+        from magasin.models.magasin import Magasin
+        from magasin.models.produit import Produit
+        from magasin.models.stock import StockCentral
+
         self.client = Client()
         self.magasin = Magasin.objects.create(
             nom="Magasin Principal", adresse="Centre-ville"
@@ -19,6 +19,8 @@ class TestEndToEnd:
         StockCentral.objects.create(produit=self.produit, quantite=500)
 
     def test_scenario_demande_et_validation_reappro(self):
+        from magasin.models.stock import DemandeReapprovisionnement
+
         # 1. Créer une demande
         response = self.client.post(
             "/uc2/reapprovisionner/",
@@ -31,8 +33,6 @@ class TestEndToEnd:
         assert response.status_code == 302
 
         # 2. Vérifier existence
-        from magasin.models.stock import DemandeReapprovisionnement
-
         demande = DemandeReapprovisionnement.objects.get(
             produit=self.produit, magasin=self.magasin
         )

@@ -1,12 +1,12 @@
-from magasin.models.stock import DemandeReapprovisionnement, StockCentral, StockLocal
-
-
 class UC6_ValidationControleur:
 
     def get_demandes_en_attente(self):
+        from magasin.models.stock import DemandeReapprovisionnement
         return DemandeReapprovisionnement.objects.filter(statut="en_attente")
 
     def valider_demande(self, demande_id):
+        from magasin.models.stock import DemandeReapprovisionnement, StockCentral, StockLocal
+
         try:
             demande = DemandeReapprovisionnement.objects.get(id=demande_id)
             print(
@@ -51,8 +51,9 @@ class UC6_ValidationControleur:
             print(f"[ERREUR] UC6 - Validation échouée : {e}")
             return False
 
-    # Maintenant correctement indentée dans la classe
     def rejeter_demande(self, demande_id):
+        from magasin.models.stock import DemandeReapprovisionnement
+
         try:
             demande = DemandeReapprovisionnement.objects.get(id=demande_id)
             demande.statut = "refusée"

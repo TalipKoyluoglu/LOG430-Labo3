@@ -1,25 +1,26 @@
-@startuml VueImplementation
-skinparam componentStyle rectangle
-left to right direction
+@startuml vue-implementation
+package magasin {
 
-package "magasin" {
-    [models] --> [controllers]
-    [controllers] --> [views]
-    [views] --> [templates]
+  [controllers] as C
+  [views] as V
+  [templates] as T
+  [routeurs d'URL] as U
 
-    component "models/\nmagasin.py\nproduit.py\nstock.py\nvente.py\nligneVente.py" as Models
-    component "controllers/\nuc1, uc2, uc3, uc4, uc6" as Controllers
-    component "views/\nuc1.py → uc6.py" as Views
-    component "templates/\nmagasin/*.html" as Templates
-    component "urls.py" as URLs
-    component "admin.py" as Admin
-    component "apps.py" as AppConfig
+  package models {
+    [Magasin] as S1
+    [Produit] as S2
+    [Stock] as S3
+    [Vente] as S4
+    [ligneVente] as S5
+  }
 
-    Models --> Controllers
-    Controllers --> Views
-    Views --> Templates
-    URLs --> Views
-    Admin --> Models
-    AppConfig --> Models
+  C --> S1 : gère magasins
+  C --> S2 : gère produits
+  C --> S3 : gère stock
+  C --> S4 : gère ventes
+  C --> S5 : gère les lignes de vente
+  V --> C : appelle logique
+  U --> V : redirige vers
+  V --> T : affiche les pages HTML
 }
 @enduml
