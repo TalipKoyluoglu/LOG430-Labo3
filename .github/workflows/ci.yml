@@ -65,7 +65,7 @@ jobs:
 
       - name:  Check code formatting with Black
         run: |
-          black --check . --exclude '/migrations/'
+          black --check . --exclude '/(migrations|\.venv|\.env|__pycache__|env|venv|\.pytest_cache)/'
 
       - name:  Build Docker image
         run: |
