@@ -4,7 +4,7 @@ package magasin {
   [controllers] as C
   [views] as V
   [templates] as T
-  [routeurs d'URL] as U
+  [urls.py] as U
 
   package models {
     [Magasin] as S1

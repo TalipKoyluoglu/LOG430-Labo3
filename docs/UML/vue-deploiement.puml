@@ -1,32 +1,35 @@
-@startuml VueDeploiement
+@startuml vue-deploiement
+title Vue de Déploiement - Magasin Central (Django + PostgreSQL + Docker)
+
+skinparam linetype ortho
 skinparam componentStyle rectangle
 skinparam defaultTextAlignment center
-left to right direction
 
-node "VM Étudiante" {
-  node "Container : Django App" {
-    component "magasin (backend Django)"
-    database "PostgreSQL"
-  }
-
-  node "Container : Web Server (nginx, optional)" {
-    component "Serveur HTTP\n(port 8000 ou 80)"
+node "Machine de développement" as dev {
+  node "Navigateur Web" as browser {
+    component user as "Utilisateur"
   }
 }
 
-cloud "DockerHub" {
-  artifact "python:3.12"
-  artifact "postgres:15"
+cloud "GitHub" {
+  node "CI/CD Pipeline" {
+    component github_actions as "GitHub Actions"
+  }
 }
 
-cloud "Maison mère (navigateur)" {
-  component "Interface Web"
+node "Docker Host (serveur local ou cloud)" as docker_host {
+  node "Container Web (Django)" as container_web {
+    component app_django as "Application Django"
+  }
+
+  node "Container PostgreSQL" as container_db {
+    component db_postgres as "Base de données PostgreSQL"
+  }
+
+  app_django --> db_postgres : ORM psycopg2
 }
 
-"Maison mère (navigateur)" --> "Serveur HTTP\n(port 8000 ou 80)" : Requêtes HTTP
-"Serveur HTTP\n(port 8000 ou 80)" --> "magasin (backend Django)" : Routage interne
-"magasin (backend Django)" --> "PostgreSQL" : Requêtes ORM SQL
+user -right-> app_django : HTTP
+github_actions -right-> app_django : Docker deploy
 
-"python:3.12" --> "magasin (backend Django)"
-"postgres:15" --> "PostgreSQL"
 @enduml

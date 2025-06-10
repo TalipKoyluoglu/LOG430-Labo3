@@ -1,52 +1,70 @@
 
-@startuml VueLogique
+@startuml Vue-logique
+
+title Vue Logique - Magasin Central (version étoilée)
+
+left to right direction
+skinparam packageStyle rectangle
 skinparam classAttributeIconSize 0
+skinparam linetype ortho
 
-package "Modèles" {
-    class Magasin {
-        +nom: str
-        +adresse: str
-    }
+package "Sous-domaine : Logistique" {
+  class Magasin {
+    +id: int
+    +nom: str
+    +adresse: str
+  }
 
-    class Produit {
-        +nom: str
-        +categorie: str
-        +prix: Decimal
-        +description: str
-    }
+  class StockCentral {
+    +quantite: int
+  }
 
-    class StockLocal {
-        +quantite: int
-    }
+  class StockLocal {
+    +quantite: int
+  }
 
-    class StockCentral {
-        +quantite: int
-    }
-
-    class Vente {
-        +date_vente: datetime
-        +total: Decimal
-    }
-
-    class LigneVente {
-        +quantite: int
-        +prix_unitaire: Decimal
-    }
-
-    class DemandeReapprovisionnement {
-        +quantite: int
-        +statut: str
-    }
-
-    Magasin "1" -- "0..*" StockLocal
-    Magasin "1" -- "0..*" Vente
-    Magasin "1" -- "0..*" DemandeReapprovisionnement
-
-    Produit "1" -- "0..*" StockLocal
-    Produit "1" -- "0..*" StockCentral
-    Produit "1" -- "0..*" LigneVente
-    Produit "1" -- "0..*" DemandeReapprovisionnement
-
-    Vente "1" -- "1..*" LigneVente
+  class DemandeReapprovisionnement {
+    +quantite: int
+    +statut: str
+  }
 }
+
+package "Sous-domaine : Supervision" {
+  class RapportPerformance {
+    +date: date
+    +total_ventes: float
+  }
+}
+
+package "Sous-domaine : Ventes" {
+  class Produit {
+    +id: int
+    +nom: str
+    +prix: float
+  }
+
+  class Vente {
+    +id: int
+    +date: datetime
+    +total: float
+  }
+
+  class LigneVente {
+    +id: int
+    +quantite: int
+    +prix_unitaire: float
+  }
+}
+
+Magasin "1" --> "*" StockLocal : possède
+Magasin "1" --> "*" DemandeReapprovisionnement : effectue
+Produit "1" --> "1" StockCentral : stocké dans
+Produit "1" --> "1" StockLocal : stocké dans
+Produit "1" --> "*" DemandeReapprovisionnement : demandé
+Magasin "1" --> "*" RapportPerformance : génère
+RapportPerformance --> Vente : analyse
+
+Produit "1" <-- "*" LigneVente : vend
+Vente "1" --> "*" LigneVente : contient
+
 @enduml
