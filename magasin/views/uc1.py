@@ -70,12 +70,12 @@ def enregistrer_vente(request):
 
     if not stock_local:
         messages.error(
-            request, "❌ Ce produit n'existe pas dans le stock local de ce magasin."
+            request, "Ce produit n'existe pas dans le stock local de ce magasin."
         )
         return redirect("ajouter_vente")
 
     if stock_local.quantite < quantite:
-        messages.error(request, "❌ Stock insuffisant pour ce produit.")
+        messages.error(request, "Stock insuffisant pour ce produit.")
         return redirect("ajouter_vente")
 
     vente = Vente.objects.create(magasin=magasin, total=0)
@@ -90,5 +90,5 @@ def enregistrer_vente(request):
     stock_local.quantite -= quantite
     stock_local.save()
 
-    messages.success(request, "✅ Vente enregistrée avec succès.")
+    messages.success(request, "Vente enregistrée avec succès.")
     return redirect("uc1_rapport")

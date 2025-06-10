@@ -17,7 +17,7 @@ class UC3_PerformanceControleur:
         semaine_dernier_jour = maintenant - timedelta(days=7)
 
         for magasin in magasins:
-            # ✅ CA basé sur prix_unitaire réel enregistré au moment de la vente
+            
             chiffre_affaires = (
                 LigneVente.objects.filter(vente__magasin=magasin)
                 .annotate(total_ligne=F("quantite") * F("prix_unitaire"))

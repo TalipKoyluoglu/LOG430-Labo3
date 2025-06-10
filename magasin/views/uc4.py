@@ -9,7 +9,7 @@ controleur = UC4_ProduitControleur()
 def uc4_modifier_produit(request, produit_id):
     produit = controleur.get_produit(produit_id)
     if not produit:
-        messages.error(request, "❌ Produit introuvable.")
+        messages.error(request, "Produit introuvable.")
         return redirect("uc3_dashboard")  # ou une autre vue par défaut
 
     if request.method == "POST":
@@ -20,10 +20,10 @@ def uc4_modifier_produit(request, produit_id):
         success = controleur.modifier_produit(produit_id, nom, prix, description)
 
         if success:
-            messages.success(request, "✅ Produit modifié avec succès.")
+            messages.success(request, "Produit modifié avec succès.")
             return redirect("uc4_modifier_produit", produit_id=produit_id)
         else:
-            messages.error(request, "❌ Échec lors de la modification du produit.")
+            messages.error(request, "Échec lors de la modification du produit.")
 
     return render(request, "magasin/uc4_modifProduit.html", {"produit": produit})
 

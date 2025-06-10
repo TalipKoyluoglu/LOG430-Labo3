@@ -25,8 +25,8 @@ def uc2_reapprovisionner(request):
         )
         if success:
             messages.success(
-                request, "✅ Demande de réapprovisionnement créée avec succès."
+                request, "Demande de réapprovisionnement créée avec succès."
             )
         else:
-            messages.error(request, "❌ Échec lors de la création de la demande.")
+            messages.error(request, "Échec lors de la création de la demande.")
     return redirect("uc2_stock")

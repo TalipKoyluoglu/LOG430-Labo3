@@ -13,16 +13,16 @@ def uc6_demandes(request):
 def uc6_valider(request, demande_id):
     success = controleur.valider_demande(demande_id)
     if success:
-        messages.success(request, "✅ Demande approuvée et stock transféré.")
+        messages.success(request, "Demande approuvée et stock transféré.")
     else:
-        messages.error(request, "❌ Échec : stock central insuffisant ou erreur.")
+        messages.error(request, "Échec : stock central insuffisant ou erreur.")
     return redirect("uc6_demandes")
 
 
 def uc6_rejeter(request, demande_id):
     success = controleur.rejeter_demande(demande_id)
     if success:
-        messages.success(request, "❌ Demande rejetée avec succès.")
+        messages.success(request, "Demande rejetée avec succès.")
     else:
-        messages.error(request, "⚠️ Échec du rejet de la demande.")
+        messages.error(request, "Échec du rejet de la demande.")
     return redirect("uc6_demandes")
