@@ -98,8 +98,11 @@ Déclenchée à chaque `push` ou `pull request` sur `main`.
 4. Build de l’image Docker
 5. Déploiement automatique sur Docker Hub (`docker.io/talipkoyluoglu/log430-labo2:latest`)
 
+---
+
 Voir la pipeline GitHub :  
 
+Pipeline réussie : https://github.com/TalipKoyluoglu/LOG430-Labo2/actions/runs/15550082635
 
 ---
 
