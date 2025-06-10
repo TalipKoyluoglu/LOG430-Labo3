@@ -78,3 +78,40 @@ jobs:
       - name:  Push Docker image
         run: |
           docker push talipkoyluoglu/log430-labo2:latest
+
+  deploy:
+      name: Deploy to VM via SSH
+      needs: build-test
+      runs-on: self-hosted
+      steps:
+        
+        - name: SSH & deploy to VM
+          uses: appleboy/ssh-action@master
+          with:
+            host: ${{ secrets.HOST }}
+            username: ${{ secrets.USER }}
+            password: ${{ secrets.PASSWORD }}
+            port: 22
+            script: |
+              set -e
+
+                # clone once, then on every run reset to main
+                if [ ! -d ~/magasin-mere ]; then
+                  git clone https://github.com/TalipKoyluoglu/LOG430-Labo2 ~/magasin-mere
+                fi
+                cd ~/magasin-mere
+                git fetch --all
+                git reset --hard origin/main
+
+                # log into Docker Hub
+                echo "${{ secrets.DOCKERHUB_TOKEN }}" \
+                  | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+                # tear down old containers
+                docker-compose down --remove-orphans
+
+                # pull new images (if you push to Docker Hub)
+                docker-compose pull
+
+                # rebuild & start fresh
+                docker-compose up -d --build --remove-orphans
