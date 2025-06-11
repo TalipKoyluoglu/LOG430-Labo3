@@ -11,7 +11,8 @@ services:
       PYTHONPATH: /app
       DJANGO_SETTINGS_MODULE: config.settings
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     volumes:
       - .:/app
 
@@ -25,6 +26,11 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "labuser", "-d", "lab2db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
 volumes:
   pgdata:
