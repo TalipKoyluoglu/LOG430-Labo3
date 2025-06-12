@@ -1,24 +1,9 @@
-from magasin.models.produit import Produit
-
+from magasin.services.uc4_service import get_produit, modifier_produit
 
 class UC4_ProduitControleur:
 
     def get_produit(self, produit_id):
-        try:
-            return Produit.objects.get(id=produit_id)
-        except Produit.DoesNotExist:
-            return None
+        return get_produit(produit_id)
 
-    def modifier_produit(
-        self, produit_id, nouveau_nom, nouveau_prix, nouvelle_description
-    ):
-        try:
-            produit = Produit.objects.get(id=produit_id)
-            produit.nom = nouveau_nom
-            produit.prix = nouveau_prix
-            produit.description = nouvelle_description
-            produit.save()
-            return True
-        except Exception as e:
-            print(f"[ERREUR] Modification du produit échouée : {e}")
-            return False
+    def modifier_produit(self, produit_id, nouveau_nom, nouveau_prix, nouvelle_description):
+        return modifier_produit(produit_id, nouveau_nom, nouveau_prix, nouvelle_description)

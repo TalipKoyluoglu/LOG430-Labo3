@@ -2,3 +2,6 @@ django
 psycopg2-binary
 pytest
 pytest-django>=4.5
+djangorestframework>=3.14.0
+drf-yasg>=1.21.6    
+pyyaml

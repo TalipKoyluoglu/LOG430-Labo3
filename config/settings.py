@@ -15,6 +15,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "magasin",
+    'rest_framework',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -45,15 +47,21 @@ TEMPLATES = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    )
+}
+
 WSGI_APPLICATION = "config.wsgi.application"
 
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("POSTGRES_DB", "lab2db"),
+        "NAME": os.getenv("POSTGRES_DB", "lab3db"),
         "USER": os.getenv("POSTGRES_USER", "labuser"),
         "PASSWORD": os.getenv("POSTGRES_PASSWORD", "labpass"),
-        "HOST": os.getenv("DB_HOST", "db"),
+        "HOST": os.getenv("DB_HOST", "db-labo3"),
         "PORT": os.getenv("DB_PORT", "5432"),
     }
 }

@@ -12,7 +12,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Étape 5 : Copier le projet complet
 COPY . .
-
+RUN chmod +x /app/entrypoint.sh
 # Étape 6 : Définir la variable d'environnement Django (optionnel si non géré dans .env)
 # ENV DJANGO_SETTINGS_MODULE=magasin.settings
 

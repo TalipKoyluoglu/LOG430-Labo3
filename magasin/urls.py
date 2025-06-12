@@ -6,7 +6,8 @@ from magasin.views.uc1 import enregistrer_vente
 from magasin.views.uc3 import uc3_dashboard
 from magasin.views.uc4 import uc4_lister_produits, uc4_modifier_produit
 from magasin.views.uc6 import uc6_demandes, uc6_rejeter, uc6_valider
-
+from magasin.api import urls as api_urls
+from magasin.api import swagger_urls
 urlpatterns = [
     path("uc1/rapport/", rapport_ventes, name="uc1_rapport"),
     path("uc2/stock/", uc2_stock, name="uc2_stock"),
@@ -24,3 +25,6 @@ urlpatterns = [
     path("uc6/valider/<int:demande_id>/", uc6_valider, name="uc6_valider"),
     path("uc6/rejeter/<int:demande_id>/", uc6_rejeter, name="uc6_rejeter"),
 ]
+
+urlpatterns += api_urls.urlpatterns
+urlpatterns += swagger_urls.urlpatterns
