@@ -7,7 +7,7 @@ from magasin.models.produit import Produit
 from magasin.api.serializers.uc4_serializer import ProduitUpdateSerializer
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
-
+from magasin.api.auth import token_required
 
 class ProduitUpdateAPI(APIView):
     
@@ -47,6 +47,7 @@ class ProduitUpdateAPI(APIView):
             404: openapi.Response(description="Produit non trouvé"),
         }
     )
+    @token_required
     def put(self, request, produit_id):
         serializer = ProduitUpdateSerializer(data=request.data)
         if not serializer.is_valid():

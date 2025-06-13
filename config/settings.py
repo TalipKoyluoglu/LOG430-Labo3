@@ -6,6 +6,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-change-me"
 DEBUG = True
 ALLOWED_HOSTS = ["*"]
+API_AUTH_TOKEN = "token-430"
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -17,9 +18,12 @@ INSTALLED_APPS = [
     "magasin",
     'rest_framework',
     'drf_yasg',
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware", 
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -53,6 +57,17 @@ REST_FRAMEWORK = {
     )
 }
 
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Token': {
+            'type': 'apiKey',
+            'in': 'header',
+            'name': 'Authorization',
+            'description': 'Entrez "Token token-430"',
+        }
+    }
+}
+
 WSGI_APPLICATION = "config.wsgi.application"
 
 DATABASES = {
@@ -76,3 +91,4 @@ USE_TZ = True
 STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "magasin" / "static"]
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+CORS_ALLOW_ALL_ORIGINS = True
