@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     "corsheaders",
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -54,7 +55,10 @@ TEMPLATES = [
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
-    )
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
 
 SWAGGER_SETTINGS = {
