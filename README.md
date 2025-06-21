@@ -1,148 +1,216 @@
-# LOG430 – Laboratoire 2 : Architecture 3 tiers, Django MVC - Multi-Magasins avec PostgreSQL
+# LOG430 – Laboratoire 3 : API REST pour un système multi-magasins
 
 ## Description de l'application
 
-Ce projet est une extension du laboratoire 1, basé sur le framework Django. Il simule un système multi-magasins permettant la gestion du stock central, la répartition des produits, les ventes locales et la validation des demandes de réapprovisionnement.
+Ce projet implémente un système de gestion multi-magasins avec une **API REST complète** développée avec Django et Django REST Framework. Le système permet la gestion des produits, des stocks, des ventes et des demandes de réapprovisionnement à travers deux interfaces :
 
-Le laboratoire 2 introduit une architecture web de type **MVC** avec Django, une base de données PostgreSQL conteneurisée, ainsi qu’un pipeline CI/CD complet incluant les tests (unitaires, intégration, e2e) et le déploiement d’un conteneur Docker.
+- **Interface Web traditionnelle** : Vues Django avec templates HTML
+- **API REST** : Points d'accès JSON documentés avec Swagger/OpenAPI
+
+L'architecture respecte une séparation claire des responsabilités avec une couche de services dédiée à la logique métier, permettant aux contrôleurs web et API d'accéder aux mêmes fonctionnalités sans duplication de code.
 
 ---
 
 ## Structure du projet
 
 ```plaintext
-.
-├── magasin/
-│   ├── models/                        # Modèles ORM Django
-│   ├── views/                         # Logique applicative (views/controllers)
-│   ├── templates/                     # Fichiers HTML
-│   │── controllers/                   # logique métier 
-│   ├── tests/
-│   │   ├── test_unitaires.py         # Tests unitaires
-│   │   ├── test_integration.py       # Tests d'intégration
-│   │   ├── test_e2e.py               # Tests end-to-end
-│   │   └── conftest.py               # Configuration des tests
-│   └── urls.py                       # Routes de l'application
-├── config/
-│   └── settings.py                   # Paramètres Django (connexion PostgreSQL)
-├── docs/
-│   ├── ADR/
-│   │   ├── ADR-001.md                # Adoption de la structure MVC (Model-View-Controller) avec Django
-│   │   ├── ADR-002.md                # Adoption de l’ORM intégré de Django pour la gestion de la persistance
-│   │  
-│   └── UML/
-│       ├── DSS-creer-demande-approvisionnement.puml    # Diagramme de séquence : création de la demande d'approvisionnement
-│       ├── DSS-modifierProduit.puml                    # Diagramme de séquence : modification du produit
-│       ├── DSS-valider-demande-approvisionnement.puml  # Diagramme de séquence : validation de la demande d'approvisionnement
-│       ├── vue-logique.puml          # Vue logique
-│       ├── vue-deploiement.puml      # Vue de déploiement
-│       ├── vue-implementation.puml   # Vue d'implémentation
-│       └── vue-cas-utilisation.puml  # Vue des cas d'utilisation
-│   └── arc42.md                      # Rapport sous la forme de template arc42
-├── Dockerfile                        # Construction de l’image Docker
-├── docker-compose.yml                # Orchestration des services (app + PostgreSQL)
-├── requirements.txt                  # Installation des dépendances
-├── pytest.ini 
-└── README.md                         # Documentation principale du projet
+LOG430-Labo3/
+├── config/                           # Configuration Django
+│   ├── settings.py                   # Paramètres (DB, API, CORS)
+│   ├── urls.py                       # URLs racine
+│   └── wsgi.py                       # Configuration WSGI
+├── magasin/                          # Application principale
+│   ├── api/                          # Couche API REST
+│   │   ├── controllers/              # Contrôleurs API (UC1-UC4)
+│   │   ├── serializers/              # Sérialiseurs JSON
+│   │   ├── tests/                    # Tests d'API
+│   │   ├── auth.py                   # Authentification par token
+│   │   ├── urls.py                   # Routes API (/api/v1/...)
+│   │   └── swagger_urls.py           # Documentation Swagger
+│   ├── services/                     # Couche logique métier
+│   │   ├── uc1_service.py            # Service rapport ventes
+│   │   ├── uc2_service.py            # Service gestion stock
+│   │   ├── uc3_service.py            # Service performances
+│   │   ├── uc4_service.py            # Service gestion produits
+│   │   └── uc6_service.py            # Service validation demandes
+│   ├── controllers/                  # Logique pour vues web
+│   ├── views/                        # Vues Django (présentation web)
+│   ├── models/                       # Modèles de données (ORM)
+│   ├── templates/                    # Templates HTML
+│   └── tests/                        # Tests (unitaires, intégration, e2e)
+├── docs/                             # Documentation
+│   ├── UML/                          # Diagrammes d'architecture
+│   └── ADR/                          # Décisions d'architecture
+├── docker-compose.yml                # Orchestration des services
+├── Dockerfile                        # Image de l'application
+├── requirements.txt                  # Dépendances Python
+├── pytest.ini                       # Configuration des tests
+└── README.md                         # Cette documentation
 ```
 
 ---
 
 ## Démarrage rapide
 
+### Prérequis
+- Docker et Docker Compose installés
+- Port 8000 et 5432 disponibles (ou modifier dans docker-compose.yml)
+
+### Lancement de l'application
+
+1. **Cloner le projet** :
+   ```bash
+   git clone <votre-repo-url>
+   cd LOG430-Labo3
+   ```
+
+2. **Démarrer avec Docker Compose** :
+   ```bash
+   docker-compose up --build
+   ```
+
+3. **Accéder à l'application** :
+   - **API Documentation (Swagger)** : http://localhost:8000/swagger/
+   - **Page d'accueil** : http://localhost:8000/ (redirige vers Swagger)
+   - **Interface Web** : 
+     - Rapport des ventes : http://localhost:8000/uc1/rapport/
+     - Gestion du stock : http://localhost:8000/uc2/stock/
+     - Dashboard performances : http://localhost:8000/uc3/dashboard/
+     - Gestion des produits : http://localhost:8000/uc4/produits/
+
+---
+
+## API REST - Endpoints disponibles
+
+L'API est versionnée et accessible sous `/api/v1/`. Authentification par token requis pour certains endpoints.
+
+### Authentification
 ```bash
-git clone https://github.com/TalipKoyluoglu/LOG430-Labo2.git
-cd LOG430-Labo2
-docker-compose up --build
+# Header requis pour les endpoints sécurisés
+Authorization: Token token-430
+```
+
+### Endpoints principaux
+
+| Endpoint | Méthode | Description | Auth |
+|----------|---------|-------------|------|
+| `/api/v1/reports/` | GET | Rapport consolidé des ventes | Non |
+| `/api/v1/stores/{id}/stock/` | GET | Stock d'un magasin spécifique | Non |
+| `/api/v1/dashboard/` | GET | Performances globales des magasins | Non |
+| `/api/v1/products/{id}/` | GET | Informations d'un produit | Non |
+| `/api/v1/products/{id}/` | PUT | Mise à jour d'un produit | **Oui** |
+
+### Exemple d'utilisation
+
+```bash
+# Consulter le rapport des ventes
+curl -X GET http://localhost:8000/api/v1/reports/
+
+# Mettre à jour un produit (avec authentification)
+curl -X PUT http://localhost:8000/api/v1/products/1/ \
+  -H "Authorization: Token token-430" \
+  -H "Content-Type: application/json" \
+  -d '{"nom": "Nouveau nom", "prix": 15.99}'
 ```
 
 ---
 
-## Fonctionnalités principales
+## Fonctionnalités implémentées
 
-- Gestion des produits et du stock central
-- Visualisation du stock local par magasin
-- Création de demandes de réapprovisionnement
-- Validation de demande de réapprovisionnement via la maison-mère
-- Génération de rapports de performance
-- Création et visualisation des ventes locales
-- Interface web minimaliste avec templates HTML
+### Cas d'utilisation couverts
+
+- **UC1 - Rapport des ventes** : Génération de rapports consolidés par magasin
+- **UC2 - Gestion du stock** : Consultation des stocks et demandes de réapprovisionnement
+- **UC3 - Performances** : Tableau de bord avec indicateurs clés (CA, ruptures, tendances)
+- **UC4 - Gestion des produits** : CRUD complet des produits avec validation
+- **UC6 - Validation des demandes** : Approbation/rejet des demandes de réapprovisionnement
+
+### Fonctionnalités techniques
+
+- **API REST** avec Django REST Framework
+- **Documentation automatique** avec Swagger/OpenAPI
+- **Authentification par token** pour les opérations sensibles
+- **CORS configuré** pour les clients externes
+- **Validation des données** avec des sérialiseurs
+- **Gestion d'erreurs normalisées** (format JSON standard)
+- **Tests d'API automatisés** avec pytest
+- **Séparation des couches** (Présentation, Services, Domaine)
 
 ---
 
-## Tests automatisés
+## Tests
 
-Les tests sont organisés en 3 catégories :
-
--  **Tests unitaires** (`test_unitaires.py`)
--  **Tests d’intégration** (`test_integration.py`)
--  **Tests end-to-end** (`test_e2e.py`)
-
-Exécution des tests :
+### Exécution des tests
 
 ```bash
-docker-compose run web pytest magasin/tests/
+# Tous les tests
+docker-compose run --rm web-labo3 pytest
+
+# Tests spécifiques à l'API
+docker-compose run --rm web-labo3 pytest magasin/api/tests/
+
 ```
 
----
+### Types de tests
 
-## Pipeline CI/CD
-
-Déclenchée à chaque `push` ou `pull request` sur `main`.
-
-### Étapes :
-
-1. Vérification du style (`black`)
-2. Lancement de PostgreSQL + Django en conteneur
-3. Exécution des tests Pytest (unitaires, intégration, e2e)
-4. Build de l’image Docker
-5. Déploiement automatique sur Docker Hub (`docker.io/talipkoyluoglu/log430-labo2:latest`)
+- **Tests unitaires** : Logique métier des services
+- **Tests d'intégration** : Interaction entre les couches
+- **Tests d'API** : Endpoints REST (codes de statut, format JSON)
+- **Tests end-to-end** : Scénarios complets utilisateur
 
 ---
 
-Voir la pipeline GitHub :  
+## Architecture
 
-Pipeline réussie : https://github.com/TalipKoyluoglu/LOG430-Labo2/actions/runs/15550082635
+Le projet suit une **architecture en couches** :
+
+1. **Couche Présentation** : 
+   - Web (vues Django + templates)
+   - API (contrôleurs REST + sérialiseurs)
+
+2. **Couche Services** : 
+   - Logique métier centralisée et réutilisable
+
+3. **Couche Domaine** : 
+   - Modèles de données (ORM Django)
+
+Cette séparation permet d'exposer la même logique métier via deux interfaces différentes sans duplication de code.
 
 ---
 
-## Architecture (Modèle 4+1)
+## Technologies utilisées
 
-Ce projet inclut une documentation complète de l’architecture :
-
--  Vue logique (`vue-logique.puml`)
--  Vue d’implémentation (`vue-implementation.puml`)
--  Vue de déploiement (`vue-deploiement.puml`)
--  Cas d’utilisation (`vue-cas-utilisation.puml`)
--  DSS (diagrammes de séquence système) pour 3 cas clés
+| Composant | Technologie | Justification |
+|-----------|-------------|---------------|
+| **Framework Web** | Django 4.x | Framework mature et robuste |
+| **API REST** | Django REST Framework | Standard de facto pour les APIs Django |
+| **Documentation API** | drf-yasg (Swagger) | Génération automatique de documentation |
+| **Base de données** | PostgreSQL | Robustesse et performance |
+| **Conteneurisation** | Docker + Docker Compose | Environnement reproductible |
+| **Tests** | pytest + pytest-django | Framework de tests moderne |
+| **Authentification** | Token-based Auth | Simple et efficace pour les APIs |
 
 ---
-## Cas d'utilisation traités
 
-- Ajouter un produit
-- Créer une demande de réapprovisionnement
-- Valider une demande
-- Gérer le stock central et local
-- Générer un rapport de performance
+## Développement
 
----   
+### Structure des services
 
-## Choix techniques
+Chaque cas d'utilisation a son service dédié dans `magasin/services/` :
+- Logique métier centralisée
+- Réutilisable par les vues web et API
+- Facilite les tests unitaires
 
-| Élément              | Justification                                                                 |
-|----------------------|------------------------------------------------------------------------------|
-| **Django MVC**       | Architecture web robuste, séparation claire des responsabilités               |
-| **PostgreSQL**       | Base de données relationnelle performante et compatible ORM Django            |
-| **Docker Compose**   | Orchestration des conteneurs (web + base de données)                          |
-| **Pytest**           | Framework de tests modulaire et structuré                                     |
-| **GitHub Actions**   | Automatisation CI/CD (tests, build, déploiement)                              |
-| **Black**            | Conventions de style automatiques pour un code propre                         |
-| **ADR**              | Documentation formelle des décisions d’architecture                           |
-| **PlantUML**         | Génération automatisée des diagrammes d’architecture                          |
+### Ajout d'un nouvel endpoint
+
+1. Créer le service dans `magasin/services/`
+2. Créer le contrôleur dans `magasin/api/controllers/`
+3. Créer le sérialiseur dans `magasin/api/serializers/`
+4. Ajouter la route dans `magasin/api/urls.py`
+5. Écrire les tests dans `magasin/api/tests/`
 
 ---
 
 ## Auteur
 
-Projet réalisé par Talip Koyluoglu. 
-
+Projet réalisé par Talip Koyluoglu 

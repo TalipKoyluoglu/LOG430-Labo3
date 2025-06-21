@@ -1,35 +1,36 @@
 @startuml vue-deploiement
-title Vue de Déploiement - Magasin Central (Django + PostgreSQL + Docker)
+title Vue de Déploiement - Architecture avec API REST
 
 skinparam linetype ortho
 skinparam componentStyle rectangle
 skinparam defaultTextAlignment center
 
-node "Machine de développement" as dev {
+node "Clients" {
   node "Navigateur Web" as browser {
-    component user as "Utilisateur"
+    component user as "Utilisateur Web"
+  }
+  node "Client Applicatif" as api_client {
+    component external_system as "Système Externe / Mobile"
   }
 }
 
-cloud "GitHub" {
-  node "CI/CD Pipeline" {
-    component github_actions as "GitHub Actions"
+node "Serveur d'Application (Docker Host)" as docker_host {
+  node "Conteneur Web (Django)" as container_web {
+    artifact "Application Django" as app_django {
+        component web_ui as "Interface Web (Vues/Templates)"
+        component rest_api as "API REST (DRF)"
+    }
   }
+
+  node "Conteneur Base de données" as container_db {
+    component db_postgres as "PostgreSQL"
+  }
+
+  rest_api -- db_postgres : ORM
+  web_ui -- db_postgres : ORM
 }
 
-node "Docker Host (serveur local ou cloud)" as docker_host {
-  node "Container Web (Django)" as container_web {
-    component app_django as "Application Django"
-  }
-
-  node "Container PostgreSQL" as container_db {
-    component db_postgres as "Base de données PostgreSQL"
-  }
-
-  app_django --> db_postgres : ORM psycopg2
-}
-
-user -right-> app_django : HTTP
-github_actions -right-> app_django : Docker deploy
+user -right-> web_ui : HTTP/HTML
+external_system -down-> rest_api : HTTP/JSON
 
 @enduml

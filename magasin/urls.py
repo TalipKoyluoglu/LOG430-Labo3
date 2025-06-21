@@ -1,4 +1,5 @@
 from django.urls import path
+from django.views.generic.base import RedirectView
 from magasin.views.uc1 import rapport_ventes
 from magasin.views.uc2 import uc2_stock, uc2_reapprovisionner
 from magasin.views.uc1 import afficher_formulaire_vente
@@ -8,7 +9,11 @@ from magasin.views.uc4 import uc4_lister_produits, uc4_modifier_produit
 from magasin.views.uc6 import uc6_demandes, uc6_rejeter, uc6_valider
 from magasin.api import urls as api_urls
 from magasin.api import swagger_urls
+
 urlpatterns = [
+    # Redirection de la page d'accueil vers Swagger
+    path("", RedirectView.as_view(url='/swagger/', permanent=False), name='home'),
+    
     path("uc1/rapport/", rapport_ventes, name="uc1_rapport"),
     path("uc2/stock/", uc2_stock, name="uc2_stock"),
     path("uc2/reapprovisionner/", uc2_reapprovisionner, name="uc2_reapprovisionner"),

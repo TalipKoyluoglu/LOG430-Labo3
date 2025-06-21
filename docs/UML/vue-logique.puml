@@ -1,70 +1,60 @@
+@startuml Vue-logique-corrigee
 
-@startuml Vue-logique
+title Vue Logique - Modèles de l'application Magasin
 
-title Vue Logique - Magasin Central (version étoilée)
-
-left to right direction
-skinparam packageStyle rectangle
 skinparam classAttributeIconSize 0
 skinparam linetype ortho
+hide empty members
 
-package "Sous-domaine : Logistique" {
-  class Magasin {
-    +id: int
-    +nom: str
-    +adresse: str
-  }
-
-  class StockCentral {
-    +quantite: int
-  }
-
-  class StockLocal {
-    +quantite: int
-  }
-
-  class DemandeReapprovisionnement {
-    +quantite: int
-    +statut: str
-  }
+class Produit {
+  +nom: CharField
+  +categorie: CharField
+  +prix: DecimalField
+  +quantite_stock: IntegerField
+  +description: TextField
 }
 
-package "Sous-domaine : Supervision" {
-  class RapportPerformance {
-    +date: date
-    +total_ventes: float
-  }
+class Magasin {
+  +nom: CharField
+  +adresse: CharField
 }
 
-package "Sous-domaine : Ventes" {
-  class Produit {
-    +id: int
-    +nom: str
-    +prix: float
-  }
-
-  class Vente {
-    +id: int
-    +date: datetime
-    +total: float
-  }
-
-  class LigneVente {
-    +id: int
-    +quantite: int
-    +prix_unitaire: float
-  }
+class StockCentral {
+  +quantite: IntegerField
 }
 
-Magasin "1" --> "*" StockLocal : possède
-Magasin "1" --> "*" DemandeReapprovisionnement : effectue
-Produit "1" --> "1" StockCentral : stocké dans
-Produit "1" --> "1" StockLocal : stocké dans
-Produit "1" --> "*" DemandeReapprovisionnement : demandé
-Magasin "1" --> "*" RapportPerformance : génère
-RapportPerformance --> Vente : analyse
+class StockLocal {
+  +quantite: IntegerField
+}
 
-Produit "1" <-- "*" LigneVente : vend
-Vente "1" --> "*" LigneVente : contient
+class DemandeReapprovisionnement {
+  +quantite: PositiveIntegerField
+  +date: DateTimeField
+  +statut: CharField
+}
+
+class Vente {
+  +date_vente: DateTimeField
+  +total: DecimalField
+}
+
+class LigneVente {
+  +quantite: IntegerField
+  +prix_unitaire: DecimalField
+}
+
+' --- Relations ---
+
+StockCentral "1..*" -- "1" Produit
+StockLocal "1..*" -- "1" Produit
+StockLocal "1..*" -- "1" Magasin
+
+DemandeReapprovisionnement "*" -- "1" Produit
+DemandeReapprovisionnement "*" -- "1" Magasin
+
+Vente "*" -- "1" Magasin
+Vente "1" -- "*" LigneVente
+LigneVente "*" -- "1" Produit
+
 
 @enduml

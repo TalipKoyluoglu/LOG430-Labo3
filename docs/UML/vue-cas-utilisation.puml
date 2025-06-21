@@ -1,23 +1,33 @@
 @startuml VueCasUtilisation
+title Vue des Cas d'Utilisation - Web et API
+
 left to right direction
 skinparam packageStyle rectangle
 
 actor "Employé magasin" as Employe
 actor "Maison mère" as Admin
+actor "Client API" as ApiClient
 
-package "Système de gestion de stock" {
+package "Système de gestion" {
     usecase "UC1 - Rapport des ventes" as UC1
-    usecase "UC2 - Consultation stock central\n+ Demande réapprovisionnement" as UC2
-    usecase "UC3 - Tableau de bord performances" as UC3
+    usecase "UC2 - Consultation stock" as UC2
+    usecase "UC3 - Tableau de bord" as UC3
     usecase "UC4 - Gérer les produits" as UC4
-    usecase "UC6 - Valider ou rejeter\nréapprovisionnement" as UC6
+    usecase "UC6 - Valider réappro." as UC6
+
+    package "Interface Web" {
+        Admin -- UC1
+        Admin -- UC3
+        Admin -- UC4
+        Admin -- UC6
+        Employe -- UC2
+    }
+
+    package "Interface API REST" {
+        ApiClient -- UC1
+        ApiClient -- UC2
+        ApiClient -- UC3
+        ApiClient -- UC4
+    }
 }
-
-Admin --> UC1
-Admin --> UC3
-Admin --> UC4
-Admin --> UC6
-
-Employe --> UC2
-
 @enduml

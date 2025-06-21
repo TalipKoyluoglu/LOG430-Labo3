@@ -1,26 +1,44 @@
 @startuml vue-implementation
-package magasin {
+title "Vue d'Implémentation - Architecture avec Services et API"
 
-  [controllers] as C
-  [views] as V
-  [templates] as T
-  [urls.py] as U
+skinparam linetype ortho
+skinparam packageStyle rectangle
 
-  package models {
-    [Magasin] as S1
-    [Produit] as S2
-    [Stock] as S3
-    [Vente] as S4
-    [ligneVente] as S5
-  }
+package "Application 'magasin'" {
 
-  C --> S1 : gère magasins
-  C --> S2 : gère produits
-  C --> S3 : gère stock
-  C --> S4 : gère ventes
-  C --> S5 : gère les lignes de vente
-  V --> C : appelle logique
-  U --> V : redirige vers
-  V --> T : affiche les pages HTML
+    package "1. Couche Présentation (Web)" {
+        component [views]
+        component [templates]
+        component [urls.py] as WebUrls
+    }
+
+    package "2. Couche API" {
+        component [api/controllers] as ApiControllers
+        component [api/serializers] as ApiSerializers
+        component [api/auth] as ApiAuth
+        component [api/urls.py] as ApiUrls
+    }
+
+    package "3. Couche Services (Logique Métier)" {
+        component [services]
+    }
+
+    package "4. Couche Domaine (Modèles)" {
+        component [models]
+    }
+
+    ' Dépendances
+    WebUrls --> [views]
+    ApiUrls --> ApiControllers
+
+    [views] --> [services] : appelle
+    ApiControllers --> [services] : appelle
+
+    ApiControllers ..> ApiSerializers : utilise
+    ApiControllers ..> ApiAuth : sécurisé par
+
+    [services] --> [models] : accède
+
+    [views] ..> [templates] : rend
 }
 @enduml
