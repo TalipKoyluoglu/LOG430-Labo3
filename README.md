@@ -283,4 +283,4 @@ Chaque cas d'utilisation a son service dédié dans `magasin/services/` :
 
 ## Auteur
 
-Projet réalisé par Talip Koyluoglu 
+Projet réalisé par Talip Koyluoglu.
