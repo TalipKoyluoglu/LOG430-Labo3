@@ -280,6 +280,10 @@ Chaque cas d'utilisation a son service dédié dans `magasin/services/` :
 
 ---
 
+Voici un exemple de pipeline : https://github.com/TalipKoyluoglu/LOG430-Labo3/actions/runs/15809245599
+
+--- 
+
 ## Auteur
 
 Projet réalisé par Talip Koyluoglu.
