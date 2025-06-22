@@ -176,8 +176,7 @@ curl "http://localhost:8000/api/v1/stores/1/stock/list/?ordering=produit__nom"
 - **UC2 - Gestion du stock** : Consultation des stocks et demandes de réapprovisionnement
 - **UC3 - Performances** : Tableau de bord avec indicateurs clés (CA, ruptures, tendances)
 - **UC4 - Gestion des produits** : CRUD complet des produits avec validation
-- **UC6 - Validation des demandes** : Approbation/rejet des demandes de réapprovisionnement
-
+  
 ### Fonctionnalités techniques
 
 - **API REST** avec Django REST Framework
