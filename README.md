@@ -60,7 +60,7 @@ LOG430-Labo3/
 
 1. **Cloner le projet** :
    ```bash
-   git clone <votre-repo-url>
+   git clone https://github.com/TalipKoyluoglu/LOG430-Labo3.git
    cd LOG430-Labo3
    ```
 
