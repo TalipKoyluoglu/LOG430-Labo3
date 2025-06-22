@@ -4,8 +4,10 @@ from magasin.models.stock import (
     StockLocal,
 )
 
+
 def get_demandes_en_attente():
     return DemandeReapprovisionnement.objects.filter(statut="en_attente")
+
 
 def valider_demande(demande_id):
     try:
@@ -41,6 +43,7 @@ def valider_demande(demande_id):
     except Exception as e:
         print(f"[ERREUR] UC6 - Validation échouée : {e}")
         return False
+
 
 def rejeter_demande(demande_id):
     try:

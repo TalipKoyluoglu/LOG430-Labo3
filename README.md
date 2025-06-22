@@ -96,6 +96,7 @@ Authorization: Token token-430
 |----------|---------|-------------|------|
 | `/api/v1/reports/` | GET | Rapport consolidé des ventes | Non |
 | `/api/v1/stores/{id}/stock/` | GET | Stock d'un magasin spécifique | Non |
+| `/api/v1/stores/{id}/stock/list/` | GET | Liste paginée du stock (tri/filtrage) | Non |
 | `/api/v1/dashboard/` | GET | Performances globales des magasins | Non |
 | `/api/v1/products/{id}/` | GET | Informations d'un produit | Non |
 | `/api/v1/products/{id}/` | PUT | Mise à jour d'un produit | **Oui** |
@@ -106,11 +107,63 @@ Authorization: Token token-430
 # Consulter le rapport des ventes
 curl -X GET http://localhost:8000/api/v1/reports/
 
+# Stock simple d'un magasin
+curl -X GET http://localhost:8000/api/v1/stores/1/stock/
+
+# Stock paginé avec filtrage et tri
+curl -X GET "http://localhost:8000/api/v1/stores/1/stock/list/?page=1&produit__nom=Café&ordering=-quantite"
+
 # Mettre à jour un produit (avec authentification)
 curl -X PUT http://localhost:8000/api/v1/products/1/ \
   -H "Authorization: Token token-430" \
   -H "Content-Type: application/json" \
   -d '{"nom": "Nouveau nom", "prix": 15.99}'
+```
+
+### Pagination, filtrage et tri
+
+L'endpoint `/api/v1/stores/{id}/stock/list/` supporte :
+
+- **Pagination** : `?page=2` (10 éléments par page par défaut)
+- **Filtrage** : 
+  - `?produit__nom=Café` (filtrer par nom de produit - recherche partielle)
+  - `?quantite=5` (filtrer par quantité exacte)
+- **Tri** : 
+  - `?ordering=quantite` (tri croissant par quantité)
+  - `?ordering=-quantite` (tri décroissant par quantité)
+  - `?ordering=produit__nom` (tri par nom de produit)
+
+### Format de réponse enrichi
+
+Les réponses incluent les informations détaillées :
+```json
+{
+  "count": 15,
+  "next": "http://localhost:8000/api/v1/stores/1/stock/list/?page=2",
+  "previous": null,
+  "results": [
+    {
+      "id": 4,
+      "produit": 4,
+      "magasin": 1,
+      "quantite": 30,
+      "produit_nom": "Café Premium Bio",
+      "magasin_nom": "Magasin Centre-Ville"
+    }
+  ]
+}
+```
+
+Exemples d'utilisation :
+```bash
+# Page 2, produits contenant "Café", triés par quantité décroissante
+curl "http://localhost:8000/api/v1/stores/1/stock/list/?page=2&produit__nom=Café&ordering=-quantite"
+
+# Filtrer par quantité exacte
+curl "http://localhost:8000/api/v1/stores/1/stock/list/?quantite=5"
+
+# Tri par nom de produit
+curl "http://localhost:8000/api/v1/stores/1/stock/list/?ordering=produit__nom"
 ```
 
 ---
@@ -128,6 +181,9 @@ curl -X PUT http://localhost:8000/api/v1/products/1/ \
 ### Fonctionnalités techniques
 
 - **API REST** avec Django REST Framework
+- **Pagination automatique** (10 éléments par page)
+- **Filtrage avancé** par attributs (nom, quantité, relations)
+- **Tri multi-critères** (croissant/décroissant)
 - **Documentation automatique** avec Swagger/OpenAPI
 - **Authentification par token** pour les opérations sensibles
 - **CORS configuré** pour les clients externes
@@ -135,6 +191,7 @@ curl -X PUT http://localhost:8000/api/v1/products/1/ \
 - **Gestion d'erreurs normalisées** (format JSON standard)
 - **Tests d'API automatisés** avec pytest
 - **Séparation des couches** (Présentation, Services, Domaine)
+- **Formatage de code** avec Black et configuration pylint-django
 
 ---
 
@@ -156,7 +213,18 @@ docker-compose run --rm web-labo3 pytest magasin/api/tests/
 - **Tests unitaires** : Logique métier des services
 - **Tests d'intégration** : Interaction entre les couches
 - **Tests d'API** : Endpoints REST (codes de statut, format JSON)
+- **Tests de pagination/filtrage** : Fonctionnalités avancées de l'API
 - **Tests end-to-end** : Scénarios complets utilisateur
+
+### Exécution avec différentes bases de données
+
+```bash
+# Tests avec PostgreSQL (recommandé - production-like)
+DB_HOST=localhost python -m pytest magasin/api/tests/ -v
+
+# Tests locaux en développement
+docker-compose run --rm web-labo3 pytest magasin/api/tests/
+```
 
 ---
 
@@ -186,9 +254,11 @@ Cette séparation permet d'exposer la même logique métier via deux interfaces 
 | **API REST** | Django REST Framework | Standard de facto pour les APIs Django |
 | **Documentation API** | drf-yasg (Swagger) | Génération automatique de documentation |
 | **Base de données** | PostgreSQL | Robustesse et performance |
+| **Filtrage/Pagination** | django-filter + DRF | APIs riches avec tri et filtrage |
 | **Conteneurisation** | Docker + Docker Compose | Environnement reproductible |
 | **Tests** | pytest + pytest-django | Framework de tests moderne |
 | **Authentification** | Token-based Auth | Simple et efficace pour les APIs |
+| **Formatage code** | Black + pylint-django | Code cohérent et qualité |
 
 ---
 

@@ -1,5 +1,6 @@
 from magasin.models import Vente, LigneVente, Magasin, StockLocal
 
+
 def generer_rapport_consolide():
     rapports = []
     magasins = Magasin.objects.all()
@@ -25,11 +26,13 @@ def generer_rapport_consolide():
             for s in StockLocal.objects.filter(magasin=magasin)
         }
 
-        rapports.append({
-            "magasin": magasin.nom,
-            "total": total,
-            "produits_vendus": produits_vendus,
-            "stock_local": stock_local,
-        })
+        rapports.append(
+            {
+                "magasin": magasin.nom,
+                "total": total,
+                "produits_vendus": produits_vendus,
+                "stock_local": stock_local,
+            }
+        )
 
     return rapports

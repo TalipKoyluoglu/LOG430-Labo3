@@ -12,8 +12,7 @@ from magasin.api import swagger_urls
 
 urlpatterns = [
     # Redirection de la page d'accueil vers Swagger
-    path("", RedirectView.as_view(url='/swagger/', permanent=False), name='home'),
-    
+    path("", RedirectView.as_view(url="/swagger/", permanent=False), name="home"),
     path("uc1/rapport/", rapport_ventes, name="uc1_rapport"),
     path("uc2/stock/", uc2_stock, name="uc2_stock"),
     path("uc2/reapprovisionner/", uc2_reapprovisionner, name="uc2_reapprovisionner"),

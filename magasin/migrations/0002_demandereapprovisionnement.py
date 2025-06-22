@@ -7,19 +7,39 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('magasin', '0001_initial'),
+        ("magasin", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='DemandeReapprovisionnement',
+            name="DemandeReapprovisionnement",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('quantite', models.PositiveIntegerField()),
-                ('date', models.DateTimeField(auto_now_add=True)),
-                ('statut', models.CharField(default='en_attente', max_length=20)),
-                ('magasin', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='magasin.magasin')),
-                ('produit', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='magasin.produit')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("quantite", models.PositiveIntegerField()),
+                ("date", models.DateTimeField(auto_now_add=True)),
+                ("statut", models.CharField(default="en_attente", max_length=20)),
+                (
+                    "magasin",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="magasin.magasin",
+                    ),
+                ),
+                (
+                    "produit",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="magasin.produit",
+                    ),
+                ),
             ],
         ),
     ]

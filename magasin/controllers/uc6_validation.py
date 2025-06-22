@@ -1,8 +1,9 @@
 from magasin.services.uc6_service import (
     get_demandes_en_attente,
     valider_demande,
-    rejeter_demande
+    rejeter_demande,
 )
+
 
 class UC6_ValidationControleur:
     def get_demandes_en_attente(self):

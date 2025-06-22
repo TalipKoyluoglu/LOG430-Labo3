@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+
 class ProduitUpdateSerializer(serializers.Serializer):
     nom = serializers.CharField(max_length=100, required=False)
     categorie = serializers.CharField(max_length=100, required=False)

@@ -6,6 +6,7 @@ from django.db.models import Sum, F
 from datetime import timedelta
 from django.utils import timezone
 
+
 def get_indicateurs_par_magasin():
     resultats = []
     magasins = Magasin.objects.all()
@@ -38,12 +39,14 @@ def get_indicateurs_par_magasin():
             for ligne in lignes_recent
         ]
 
-        resultats.append({
-            "magasin": magasin.nom,
-            "chiffre_affaires": chiffre_affaires,
-            "ruptures": ruptures,
-            "surstock": surstock,
-            "tendances": ", ".join(tendances),
-        })
+        resultats.append(
+            {
+                "magasin": magasin.nom,
+                "chiffre_affaires": chiffre_affaires,
+                "ruptures": ruptures,
+                "surstock": surstock,
+                "tendances": ", ".join(tendances),
+            }
+        )
 
     return resultats

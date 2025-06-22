@@ -8,63 +8,148 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Magasin',
+            name="Magasin",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('nom', models.CharField(max_length=100)),
-                ('adresse', models.CharField(max_length=255)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("nom", models.CharField(max_length=100)),
+                ("adresse", models.CharField(max_length=255)),
             ],
         ),
         migrations.CreateModel(
-            name='Produit',
+            name="Produit",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('nom', models.CharField(max_length=100)),
-                ('categorie', models.CharField(max_length=100)),
-                ('prix', models.DecimalField(decimal_places=2, max_digits=10)),
-                ('quantite_stock', models.IntegerField(default=0)),
-                ('description', models.TextField(blank=True, null=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("nom", models.CharField(max_length=100)),
+                ("categorie", models.CharField(max_length=100)),
+                ("prix", models.DecimalField(decimal_places=2, max_digits=10)),
+                ("quantite_stock", models.IntegerField(default=0)),
+                ("description", models.TextField(blank=True, null=True)),
             ],
         ),
         migrations.CreateModel(
-            name='StockCentral',
+            name="StockCentral",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('quantite', models.IntegerField()),
-                ('produit', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='magasin.produit')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("quantite", models.IntegerField()),
+                (
+                    "produit",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="magasin.produit",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='StockLocal',
+            name="StockLocal",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('quantite', models.IntegerField()),
-                ('magasin', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='magasin.magasin')),
-                ('produit', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='magasin.produit')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("quantite", models.IntegerField()),
+                (
+                    "magasin",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="magasin.magasin",
+                    ),
+                ),
+                (
+                    "produit",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="magasin.produit",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Vente',
+            name="Vente",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date_vente', models.DateTimeField(auto_now_add=True)),
-                ('total', models.DecimalField(decimal_places=2, max_digits=10)),
-                ('magasin', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='ventes', to='magasin.magasin')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("date_vente", models.DateTimeField(auto_now_add=True)),
+                ("total", models.DecimalField(decimal_places=2, max_digits=10)),
+                (
+                    "magasin",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="ventes",
+                        to="magasin.magasin",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='LigneVente',
+            name="LigneVente",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('quantite', models.IntegerField()),
-                ('prix_unitaire', models.DecimalField(decimal_places=2, max_digits=10)),
-                ('produit', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='magasin.produit')),
-                ('vente', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='lignes', to='magasin.vente')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("quantite", models.IntegerField()),
+                ("prix_unitaire", models.DecimalField(decimal_places=2, max_digits=10)),
+                (
+                    "produit",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="magasin.produit",
+                    ),
+                ),
+                (
+                    "vente",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="lignes",
+                        to="magasin.vente",
+                    ),
+                ),
             ],
         ),
     ]

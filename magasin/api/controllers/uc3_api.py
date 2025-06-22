@@ -23,11 +23,11 @@ class PerformanceMagasinsAPI(APIView):
                         "status": 500,
                         "error": "Internal Server Error",
                         "message": "Une erreur inattendue est survenue.",
-                        "path": "/api/v1/stores/performance/"
+                        "path": "/api/v1/stores/performance/",
                     }
-                }
-            )
-        }
+                },
+            ),
+        },
     )
     def get(self, request):
         try:
@@ -35,10 +35,13 @@ class PerformanceMagasinsAPI(APIView):
             serializer = PerformanceMagasinSerializer(performances, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Exception as e:
-            return Response({
-                "timestamp": "2025-06-11T12:00:00Z",
-                "status": 500,
-                "error": "Internal Server Error",
-                "message": str(e),
-                "path": "/api/v1/stores/performance/"
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(
+                {
+                    "timestamp": "2025-06-11T12:00:00Z",
+                    "status": 500,
+                    "error": "Internal Server Error",
+                    "message": str(e),
+                    "path": "/api/v1/stores/performance/",
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )

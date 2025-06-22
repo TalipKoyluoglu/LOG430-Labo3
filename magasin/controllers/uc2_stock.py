@@ -1,4 +1,8 @@
-from magasin.services.uc2_service import obtenir_stock_central, creer_demande_reapprovisionnement
+from magasin.services.uc2_service import (
+    obtenir_stock_central,
+    creer_demande_reapprovisionnement,
+)
+
 
 class UC2_StockControleur:
     def obtenir_stock_central(self):

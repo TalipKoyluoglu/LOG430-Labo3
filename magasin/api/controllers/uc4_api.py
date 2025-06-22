@@ -9,16 +9,17 @@ from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from magasin.api.auth import token_required
 
+
 class ProduitUpdateAPI(APIView):
-    
+
     @swagger_auto_schema(
         operation_summary="Consulter les informations d’un produit",
         operation_description="Retourne les détails actuels d’un produit identifié par son ID.",
         responses={
             200: ProduitUpdateSerializer,
-            404: openapi.Response(description="Produit non trouvé")
+            404: openapi.Response(description="Produit non trouvé"),
         },
-        tags=["UC4 - Mise à jour produit"]
+        tags=["UC4 - Mise à jour produit"],
     )
     def get(self, request, produit_id):
         try:
@@ -32,9 +33,9 @@ class ProduitUpdateAPI(APIView):
                     "status": 404,
                     "error": "Not Found",
                     "message": f"Produit avec ID {produit_id} introuvable.",
-                    "path": f"/api/v1/products/{produit_id}/"
+                    "path": f"/api/v1/products/{produit_id}/",
                 },
-                status=status.HTTP_404_NOT_FOUND
+                status=status.HTTP_404_NOT_FOUND,
             )
 
     @swagger_auto_schema(
@@ -45,7 +46,7 @@ class ProduitUpdateAPI(APIView):
         responses={
             200: ProduitUpdateSerializer,
             404: openapi.Response(description="Produit non trouvé"),
-        }
+        },
     )
     @token_required
     def put(self, request, produit_id):
@@ -61,9 +62,11 @@ class ProduitUpdateAPI(APIView):
                     "status": 404,
                     "error": "Not Found",
                     "message": f"Produit avec ID {produit_id} introuvable.",
-                    "path": f"/api/v1/products/{produit_id}/"
+                    "path": f"/api/v1/products/{produit_id}/",
                 },
-                status=status.HTTP_404_NOT_FOUND
+                status=status.HTTP_404_NOT_FOUND,
             )
 
-        return Response(ProduitUpdateSerializer(produit.__dict__).data, status=status.HTTP_200_OK)
+        return Response(
+            ProduitUpdateSerializer(produit.__dict__).data, status=status.HTTP_200_OK
+        )

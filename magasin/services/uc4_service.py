@@ -1,10 +1,12 @@
 from magasin.models.produit import Produit
 
+
 def get_produit(produit_id):
     try:
         return Produit.objects.get(id=produit_id)
     except Produit.DoesNotExist:
         return None
+
 
 def modifier_produit(produit_id, nouveau_nom, nouveau_prix, nouvelle_description):
     try:
@@ -17,6 +19,7 @@ def modifier_produit(produit_id, nouveau_nom, nouveau_prix, nouvelle_description
     except Exception as e:
         print(f"[ERREUR] Modification du produit échouée : {e}")
         return False
+
 
 def modifier_produitAPI(produit_id, data):
     try:

@@ -73,6 +73,138 @@
       "description": "Surface antidérapante et étendue"
     }
   },
+  {
+    "model": "magasin.produit",
+    "pk": 4,
+    "fields": {
+      "nom": "Café Premium Bio",
+      "categorie": "Boissons",
+      "prix": "15.99",
+      "quantite_stock": 100,
+      "description": "Café arabica de qualité supérieure"
+    }
+  },
+  {
+    "model": "magasin.produit",
+    "pk": 5,
+    "fields": {
+      "nom": "Café Espresso Intenso",
+      "categorie": "Boissons",
+      "prix": "18.50",
+      "quantite_stock": 75,
+      "description": "Café corsé pour espresso"
+    }
+  },
+  {
+    "model": "magasin.produit",
+    "pk": 6,
+    "fields": {
+      "nom": "Thé Vert Sencha",
+      "categorie": "Boissons",
+      "prix": "12.99",
+      "quantite_stock": 60,
+      "description": "Thé vert japonais authentique"
+    }
+  },
+  {
+    "model": "magasin.produit",
+    "pk": 7,
+    "fields": {
+      "nom": "Thé Earl Grey",
+      "categorie": "Boissons",
+      "prix": "14.75",
+      "quantite_stock": 45,
+      "description": "Thé noir parfumé à la bergamote"
+    }
+  },
+  {
+    "model": "magasin.produit",
+    "pk": 8,
+    "fields": {
+      "nom": "Chocolat Noir 70%",
+      "categorie": "Confiserie",
+      "prix": "8.99",
+      "quantite_stock": 90,
+      "description": "Chocolat noir intense et raffiné"
+    }
+  },
+  {
+    "model": "magasin.produit",
+    "pk": 9,
+    "fields": {
+      "nom": "Chocolat au Lait",
+      "categorie": "Confiserie",
+      "prix": "6.50",
+      "quantite_stock": 110,
+      "description": "Chocolat doux et crémeux"
+    }
+  },
+  {
+    "model": "magasin.produit",
+    "pk": 10,
+    "fields": {
+      "nom": "Écouteurs Bluetooth",
+      "categorie": "Informatique",
+      "prix": "45.99",
+      "quantite_stock": 35,
+      "description": "Écouteurs sans fil haute qualité"
+    }
+  },
+  {
+    "model": "magasin.produit",
+    "pk": 11,
+    "fields": {
+      "nom": "Webcam HD 1080p",
+      "categorie": "Informatique",
+      "prix": "79.99",
+      "quantite_stock": 25,
+      "description": "Caméra haute définition pour visioconférence"
+    }
+  },
+  {
+    "model": "magasin.produit",
+    "pk": 12,
+    "fields": {
+      "nom": "Support d'écran ergonomique",
+      "categorie": "Accessoire",
+      "prix": "32.99",
+      "quantite_stock": 40,
+      "description": "Support réglable pour moniteur"
+    }
+  },
+  {
+    "model": "magasin.produit",
+    "pk": 13,
+    "fields": {
+      "nom": "Câble USB-C 2m",
+      "categorie": "Accessoire",
+      "prix": "12.99",
+      "quantite_stock": 150,
+      "description": "Câble de charge et transfert rapide"
+    }
+  },
+  {
+    "model": "magasin.produit",
+    "pk": 14,
+    "fields": {
+      "nom": "Chargeur sans fil",
+      "categorie": "Accessoire",
+      "prix": "24.99",
+      "quantite_stock": 55,
+      "description": "Station de charge par induction"
+    }
+  },
+  {
+    "model": "magasin.produit",
+    "pk": 15,
+    "fields": {
+      "nom": "Thé Rooibos Vanille",
+      "categorie": "Boissons",
+      "prix": "13.50",
+      "quantite_stock": 30,
+      "description": "Infusion sans théine à la vanille"
+    }
+  },
 
   {
     "model": "magasin.stockcentral",
@@ -98,6 +230,102 @@
       "quantite": 150
     }
   },
+  {
+    "model": "magasin.stockcentral",
+    "pk": 4,
+    "fields": {
+      "produit": 4,
+      "quantite": 400
+    }
+  },
+  {
+    "model": "magasin.stockcentral",
+    "pk": 5,
+    "fields": {
+      "produit": 5,
+      "quantite": 300
+    }
+  },
+  {
+    "model": "magasin.stockcentral",
+    "pk": 6,
+    "fields": {
+      "produit": 6,
+      "quantite": 250
+    }
+  },
+  {
+    "model": "magasin.stockcentral",
+    "pk": 7,
+    "fields": {
+      "produit": 7,
+      "quantite": 180
+    }
+  },
+  {
+    "model": "magasin.stockcentral",
+    "pk": 8,
+    "fields": {
+      "produit": 8,
+      "quantite": 350
+    }
+  },
+  {
+    "model": "magasin.stockcentral",
+    "pk": 9,
+    "fields": {
+      "produit": 9,
+      "quantite": 400
+    }
+  },
+  {
+    "model": "magasin.stockcentral",
+    "pk": 10,
+    "fields": {
+      "produit": 10,
+      "quantite": 120
+    }
+  },
+  {
+    "model": "magasin.stockcentral",
+    "pk": 11,
+    "fields": {
+      "produit": 11,
+      "quantite": 80
+    }
+  },
+  {
+    "model": "magasin.stockcentral",
+    "pk": 12,
+    "fields": {
+      "produit": 12,
+      "quantite": 150
+    }
+  },
+  {
+    "model": "magasin.stockcentral",
+    "pk": 13,
+    "fields": {
+      "produit": 13,
+      "quantite": 500
+    }
+  },
+  {
+    "model": "magasin.stockcentral",
+    "pk": 14,
+    "fields": {
+      "produit": 14,
+      "quantite": 200
+    }
+  },
+  {
+    "model": "magasin.stockcentral",
+    "pk": 15,
+    "fields": {
+      "produit": 15,
+      "quantite": 100
+    }
+  },
 
   {
     "model": "magasin.stocklocal",
@@ -113,7 +341,7 @@
     "pk": 2,
     "fields": {
       "produit": 2,
-      "magasin": 2,
+      "magasin": 1,
       "quantite": 35
     }
   },
@@ -122,7 +350,7 @@
     "pk": 3,
     "fields": {
       "produit": 3,
-      "magasin": 3,
+      "magasin": 1,
       "quantite": 15
     }
   },
@@ -130,18 +358,288 @@
     "model": "magasin.stocklocal",
     "pk": 4,
     "fields": {
-      "produit": 1,
-      "magasin": 4,
-      "quantite": 10
+      "produit": 4,
+      "magasin": 1,
+      "quantite": 30
     }
   },
   {
     "model": "magasin.stocklocal",
     "pk": 5,
     "fields": {
-      "produit": 2,
-      "magasin": 5,
+      "produit": 5,
+      "magasin": 1,
       "quantite": 25
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 6,
+    "fields": {
+      "produit": 6,
+      "magasin": 1,
+      "quantite": 18
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 7,
+    "fields": {
+      "produit": 7,
+      "magasin": 1,
+      "quantite": 12
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 8,
+    "fields": {
+      "produit": 8,
+      "magasin": 1,
+      "quantite": 22
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 9,
+    "fields": {
+      "produit": 9,
+      "magasin": 1,
+      "quantite": 28
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 10,
+    "fields": {
+      "produit": 10,
+      "magasin": 1,
+      "quantite": 8
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 11,
+    "fields": {
+      "produit": 11,
+      "magasin": 1,
+      "quantite": 5
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 12,
+    "fields": {
+      "produit": 12,
+      "magasin": 1,
+      "quantite": 14
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 13,
+    "fields": {
+      "produit": 13,
+      "magasin": 1,
+      "quantite": 42
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 14,
+    "fields": {
+      "produit": 14,
+      "magasin": 1,
+      "quantite": 16
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 15,
+    "fields": {
+      "produit": 15,
+      "magasin": 1,
+      "quantite": 9
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 16,
+    "fields": {
+      "produit": 1,
+      "magasin": 2,
+      "quantite": 18
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 17,
+    "fields": {
+      "produit": 4,
+      "magasin": 2,
+      "quantite": 22
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 18,
+    "fields": {
+      "produit": 6,
+      "magasin": 2,
+      "quantite": 15
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 19,
+    "fields": {
+      "produit": 8,
+      "magasin": 2,
+      "quantite": 31
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 20,
+    "fields": {
+      "produit": 10,
+      "magasin": 2,
+      "quantite": 12
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 21,
+    "fields": {
+      "produit": 2,
+      "magasin": 3,
+      "quantite": 28
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 22,
+    "fields": {
+      "produit": 5,
+      "magasin": 3,
+      "quantite": 19
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 23,
+    "fields": {
+      "produit": 7,
+      "magasin": 3,
+      "quantite": 16
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 24,
+    "fields": {
+      "produit": 9,
+      "magasin": 3,
+      "quantite": 33
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 25,
+    "fields": {
+      "produit": 11,
+      "magasin": 3,
+      "quantite": 7
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 26,
+    "fields": {
+      "produit": 3,
+      "magasin": 4,
+      "quantite": 24
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 27,
+    "fields": {
+      "produit": 6,
+      "magasin": 4,
+      "quantite": 21
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 28,
+    "fields": {
+      "produit": 8,
+      "magasin": 4,
+      "quantite": 26
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 29,
+    "fields": {
+      "produit": 12,
+      "magasin": 4,
+      "quantite": 11
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 30,
+    "fields": {
+      "produit": 13,
+      "magasin": 4,
+      "quantite": 38
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 31,
+    "fields": {
+      "produit": 1,
+      "magasin": 5,
+      "quantite": 17
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 32,
+    "fields": {
+      "produit": 4,
+      "magasin": 5,
+      "quantite": 23
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 33,
+    "fields": {
+      "produit": 10,
+      "magasin": 5,
+      "quantite": 9
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 34,
+    "fields": {
+      "produit": 14,
+      "magasin": 5,
+      "quantite": 13
+    }
+  },
+  {
+    "model": "magasin.stocklocal",
+    "pk": 35,
+    "fields": {
+      "produit": 15,
+      "magasin": 5,
+      "quantite": 6
     }
   }
 ]
